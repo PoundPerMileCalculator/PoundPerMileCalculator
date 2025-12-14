@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6137556007617591"
-     crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pound Per Mile Calculator</title>
 <style>
-/* Base body styling */
+/* Base styling */
 body {
   background-color: #303036;
   font-family: 'League Spartan', sans-serif;
@@ -21,7 +19,7 @@ body {
 .container {
   background-color: #fffaff;
   padding: 40px 30px;
-  max-width: 850px;
+  max-width: 750px;
   margin: 50px auto;
   border-radius: 15px;
   box-shadow: 0 6px 25px rgba(0,0,0,0.25);
@@ -67,7 +65,7 @@ nav a:hover {
 }
 
 .dropdowns select {
-  width: 280px;
+  width: 250px;
   padding: 12px 15px;
   border-radius: 12px;
   border: 1px solid #ccc;
@@ -113,6 +111,14 @@ button:disabled {
   color: #fc5130;
 }
 
+/* Footer */
+footer {
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: #050401;
+  line-height: 1.4;
+}
+
 /* Responsive */
 @media (max-width: 500px) {
   .dropdowns select {
@@ -125,6 +131,7 @@ button:disabled {
 
 <div class="container">
 
+  <!-- Navigation -->
   <nav>
     <a href="index.html">Home</a> | 
     <a href="efficiency.html">Find Efficiency</a> | 
@@ -133,16 +140,25 @@ button:disabled {
 
   <h1>Pound Per Mile Calculator</h1>
 
+  <!-- Instructions -->
   <p class="readme">
-    Select your vehicle brand, model, and region to calculate running cost per mile (and optionally total trip cost).
+    Welcome! Select your vehicle brand and model, then choose your area. 
+    The calculator will show your estimated cost per mile. Optionally, you can enter the distance to get the total cost.
   </p>
 
+  <!-- Dropdowns -->
   <div class="dropdowns">
     <label for="brand">Brand:</label>
-    <select id="brand"><option value="">--Select Brand--</option></select>
+    <select id="brand">
+      <option value="">--Select Brand--</option>
+      <!-- Brands will be populated here via JS -->
+    </select>
 
     <label for="model">Model:</label>
-    <select id="model" disabled><option value="">--Select Model--</option></select>
+    <select id="model" disabled>
+      <option value="">--Select Model--</option>
+      <!-- Models will be populated here via JS -->
+    </select>
 
     <label for="area">Region:</label>
     <select id="area">
@@ -162,9 +178,116 @@ button:disabled {
   <div class="result" id="result"></div>
   <div class="total-cost" id="totalCost"></div>
 
+  <!-- Footer -->
+  <footer>
+    The website is still in early stages, so we apologise if your vehicle isn't shown. Each vehicle efficiency is recorded at peak performance; we do not guarantee these figures in real-world cases, but they provide a good comparison.
+  </footer>
+
 </div>
 
 <script>
+// DOM elements
+const brandSelect = document.getElementById('brand');
+const modelSelect = document.getElementById('model');
+const areaSelect = document.getElementById('area');
+const calculateBtn = document.getElementById('calculateBtn');
+const resultDiv = document.getElementById('result');
+const totalDiv = document.getElementById('totalCost');
+
+// Vehicle data placeholder
+const vehiclesData = {
+  // Vehicle brands & models will be added here later
+};
+
+// Fuel & Energy prices placeholder
+const fuelPrices = {
+  "Wales": { petrol: 135, diesel: 143 },
+  "Scotland": { petrol: 135, diesel: 144 },
+  "North England": { petrol: 136, diesel: 145 },
+  "East England": { petrol: 137, diesel: 145 },
+  "South England": { petrol: 138, diesel: 146 },
+  "West England": { petrol: 136, diesel: 144 },
+  "London": { petrol: 138, diesel: 146 }
+};
+
+const energyPrices = {
+  "Wales": 25.8,
+  "Scotland": 26.0,
+  "North England": 25.0,
+  "East England": 26.0,
+  "South England": 26.9,
+  "West England": 26.0,
+  "London": 26.05
+};
+
+// Populate brands
+function populateBrands() {
+  Object.keys(vehiclesData).forEach(brand => {
+    const option = document.createElement('option');
+    option.value = brand;
+    option.textContent = brand;
+    brandSelect.appendChild(option);
+  });
+}
+populateBrands();
+
+// Update models dropdown
+brandSelect.addEventListener('change', () => {
+  const brand = brandSelect.value;
+  modelSelect.innerHTML = '<option value="">--Select Model--</option>';
+  modelSelect.disabled = !brand;
+
+  if (brand && vehiclesData[brand]) {
+    vehiclesData[brand].forEach(vehicle => {
+      const option = document.createElement('option');
+      option.value = vehicle.model;
+      option.textContent = vehicle.model;
+      modelSelect.appendChild(option);
+    });
+  }
+  checkButtonState();
+});
+
+// Enable/disable calculate button
+modelSelect.addEventListener('change', checkButtonState);
+areaSelect.addEventListener('change', checkButtonState);
+
+function checkButtonState() {
+  calculateBtn.disabled = !(brandSelect.value && modelSelect.value && areaSelect.value);
+}
+
+// Calculation (placeholder)
+calculateBtn.addEventListener('click', () => {
+  const brand = brandSelect.value;
+  const model = modelSelect.value;
+  const area = areaSelect.value;
+  const vehicle = vehiclesData[brand]?.find(v => v.model === model);
+
+  if (!vehicle) return;
+
+  let costPerMile = 0;
+
+  if (vehicle.fuel === 'petrol') costPerMile = (fuelPrices[area].petrol / 100) / vehicle.mpg;
+  else if (vehicle.fuel === 'diesel') costPerMile = (fuelPrices[area].diesel / 100) / vehicle.mpg;
+  else if (vehicle.fuel === 'electric') costPerMile = (energyPrices[area] / 100) * vehicle.kwh_per_mile;
+  else costPerMile = 10;
+
+  resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile.`;
+
+  const milesInput = prompt("How many miles will you be traveling? (Optional)");
+  if (milesInput && !isNaN(milesInput)) {
+    const totalMiles = parseFloat(milesInput);
+    const totalCost = costPerMile * totalMiles;
+    totalDiv.innerText = `Total estimated cost for ${totalMiles} miles: £${totalCost.toFixed(2)}`;
+  } else {
+    totalDiv.innerText = '';
+  }
+});
+</script>
+
+</body>
+</html>
+
 // Full vehiclesData for 10 brands with mpg/kWh estimates
 const vehiclesData = {
   "Ford": [
