@@ -600,133 +600,111 @@ const vehiclesData = {
   ]
 };
 
-// --- Prices ---
-const fuelPrices = {
-  "Wales": { petrol: 135 },
-  "London": { petrol: 138 }
+<!-- Calculation Button and Result -->
+<button id="calculateBtn" disabled>Calculate £/mile</button>
+
+<div class="result" id="result"></div>
+<div class="total-cost" id="totalCost"></div>
+
+<script>
+// DOM elements
+const brandSelect = document.getElementById('brand');
+const modelSelect = document.getElementById('model');
+const areaSelect = document.getElementById('area');
+const calculateBtn = document.getElementById('calculateBtn');
+const resultDiv = document.getElementById('result');
+const totalDiv = document.getElementById('totalCost');
+
+// Example vehicle data placeholder
+const vehiclesData = {
+  // Vehicles data will be added here
 };
 
-// --- DOM ---
-const resultDiv = document.getElementById("result");
-const totalDiv = document.getElementById("totalCost");
+// Fuel & energy prices
+const fuelPrices = {
+  "Wales": { petrol: 135, diesel: 143 },
+  "Scotland": { petrol: 135, diesel: 144 },
+  "North England": { petrol: 136, diesel: 145 },
+  "East England": { petrol: 137, diesel: 145 },
+  "South England": { petrol: 138, diesel: 146 },
+  "West England": { petrol: 136, diesel: 144 },
+  "London": { petrol: 138, diesel: 146 }
+};
 
-document.getElementById("calculateBtn").addEventListener("click", () => {
-  const brand = document.getElementById("brand").value;
-  const model = document.getElementById("model").value;
-  const area = document.getElementById("area").value;
+const energyPrices = {
+  "Wales": 25.8,
+  "Scotland": 26.0,
+  "North England": 25.0,
+  "East England": 26.0,
+  "South England": 26.9,
+  "West England": 26.0,
+  "London": 26.05
+};
 
-  if (!brand || !model || !area) {
-    resultDiv.innerText = "Please select all options.";
-    return;
+// Populate brands dropdown
+function populateBrands() {
+  Object.keys(vehiclesData).forEach(brand => {
+    const option = document.createElement('option');
+    option.value = brand;
+    option.textContent = brand;
+    brandSelect.appendChild(option);
+  });
+}
+populateBrands();
+
+// Populate models dropdown based on selected brand
+brandSelect.addEventListener('change', () => {
+  const brand = brandSelect.value;
+  modelSelect.innerHTML = '<option value="">--Select Model--</option>';
+  modelSelect.disabled = !brand;
+
+  if (brand && vehiclesData[brand]) {
+    vehiclesData[brand].forEach(vehicle => {
+      const option = document.createElement('option');
+      option.value = vehicle.model;
+      option.textContent = vehicle.model;
+      modelSelect.appendChild(option);
+    });
   }
+  checkButtonState();
+});
 
-  const vehicle = vehicles[brand][model];
-  const mpg = Number(vehicle.mpg);
+// Enable/disable calculate button
+modelSelect.addEventListener('change', checkButtonState);
+areaSelect.addEventListener('change', checkButtonState);
 
-  // ✅ SAFETY CHECK
-  if (!mpg || mpg <= 0) {
-    resultDiv.innerText = "Invalid efficiency data.";
-    return;
-  }
+function checkButtonState() {
+  calculateBtn.disabled = !(brandSelect.value && modelSelect.value && areaSelect.value);
+}
+
+// Calculation logic
+calculateBtn.addEventListener('click', () => {
+  const brand = brandSelect.value;
+  const model = modelSelect.value;
+  const area = areaSelect.value;
+  const vehicle = vehiclesData[brand]?.find(v => v.model === model);
+
+  if (!vehicle) return;
 
   let costPerMile = 0;
 
-  if (vehicle.fuel === "petrol") {
-    costPerMile = (fuelPrices[area].petrol / 100) / mpg;
-  } else {
-    // Fun / aircraft fallback
-    costPerMile = (fuelPrices[area].petrol / 100) / mpg;
-  }
+  // Correctly handle values <1 (e.g., planes, hybrids, electric)
+  if (vehicle.fuel === 'petrol') costPerMile = (fuelPrices[area].petrol / 100) / vehicle.mpg;
+  else if (vehicle.fuel === 'diesel') costPerMile = (fuelPrices[area].diesel / 100) / vehicle.mpg;
+  else if (vehicle.fuel === 'electric') costPerMile = (energyPrices[area] / 100) * vehicle.kwh_per_mile;
+  else costPerMile = 10; // fallback for unknown fuel types
 
-  resultDiv.innerText = `Estimated cost: £${costPerMile.toFixed(2)} per mile`;
+  // Show cost per mile first
+  resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile.`;
 
-  // Optional miles input
-  const miles = prompt("How many miles will you be travelling? (optional)");
-  if (miles && !isNaN(miles)) {
-    const totalCost = costPerMile * Number(miles);
-    totalDiv.innerText = `Total estimated cost: £${totalCost.toFixed(2)}`;
+  // Optional total miles
+  const milesInput = prompt("How many miles will you be traveling? (Optional)");
+  if (milesInput && !isNaN(milesInput)) {
+    const totalMiles = parseFloat(milesInput);
+    const totalCost = costPerMile * totalMiles;
+    totalDiv.innerText = `Total estimated cost for ${totalMiles} miles: £${totalCost.toFixed(2)}`;
   } else {
-    totalDiv.innerText = "";
+    totalDiv.innerText = '';
   }
 });
 </script>
- </html>
-/* ================= FOOTER ================= */
-
-.site-footer {
-  background-color: #050401;
-  color: #fffaff;
-  padding: 35px 20px;
-  text-align: center;
-  font-size: 0.95rem;
-  line-height: 1.7;
-  margin-top: 70px;
-  border-top: 1px solid rgba(255, 250, 255, 0.15);
-}
-
-.site-footer p {
-  max-width: 950px;
-  margin: 0 auto 18px;
-  opacity: 0.9;
-}
-
-.footer-links {
-  margin-top: 15px;
-}
-
-.footer-links a {
-  color: #30BCED;
-  text-decoration: none;
-  margin: 0 10px;
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.footer-links a:hover {
-  color: #fc5130;
-  text-decoration: underline;
-}
-
-.site-footer .copyright {
-  margin-top: 18px;
-  font-size: 0.8rem;
-  opacity: 0.65;
-}
-
-/* Mobile optimisation */
-@media (max-width: 600px) {
-  .site-footer {
-    font-size: 0.85rem;
-    padding: 30px 15px;
-  }
-
-  .footer-links a {
-    display: inline-block;
-    margin: 6px 8px;
-  }
-}
-</style>
-
-<footer class="site-footer">
-  <p>
-    This website is still in its early stages, so we apologise if your vehicle is not yet shown.
-    <br><br>
-    Vehicle efficiency figures are recorded under peak performance conditions.
-    We do not guarantee these values in real-world driving scenarios, but they are intended to provide a useful comparison between vehicles.
-  </p>
-
-  <div class="footer-links">
-    <a href="privacy.html">Privacy Policy</a> |
-    <a href="terms.html">Terms of Use</a> |
-    <a href="cookies.html">Cookie Policy</a>
-  </div>
-
-  <div class="copyright">
-    © 2025 Pound Per Mile Calculator. All rights reserved.
-  </div>
-</footer>
-
-</body>
-</html> 
-
-
