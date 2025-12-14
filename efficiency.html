@@ -4,135 +4,194 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Most Efficient Vehicles</title>
-<link rel="stylesheet" href="style.css">
+<style>
+  /* Base body styling */
+  body {
+    background-color: #303036;
+    font-family: 'League Spartan', sans-serif;
+    color: #30BCED;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Container box */
+  .container {
+    background-color: #fffaff;
+    padding: 40px 30px;
+    max-width: 900px;
+    margin: 50px auto;
+    border-radius: 15px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+  }
+
+  /* Headings */
+  h1 {
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+    margin-top: 25px;
+  }
+
+  h2 span {
+    color: #fc5130; /* PPM color */
+  }
+
+  /* Paragraphs */
+  p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 10px 0;
+    color: #303036;
+  }
+
+  /* Navigation links */
+  nav {
+    margin-bottom: 30px;
+  }
+
+  nav a {
+    color: #30BCED;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 10px;
+  }
+
+  nav a:hover {
+    text-decoration: underline;
+  }
+
+  /* Vehicle images */
+  .vehicle img {
+    margin: 15px 0;
+    border-radius: 10px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Vehicle container */
+  .vehicle {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+</style>
 </head>
 <body>
   <div class="container">
-    <h1>Top 10 Most Efficient Vehicles</h1>
     <nav>
       <a href="index.html">Home</a> | 
       <a href="efficiency.html">Find Efficiency</a>
     </nav>
 
+    <h1>Top 10 Most Efficient Vehicles</h1>
+
     <div class="vehicle-list">
+      <!-- Vehicle 1 -->
+      <div class="vehicle">
+        <h2>Tesla Model 3 <span>£0.05/mi</span></h2>
+        <img src="images/tesla_model3.jpg" alt="Tesla Model 3">
+        <p>The Tesla Model 3 is a fully electric vehicle designed for efficiency and performance. Its aerodynamic design and electric drivetrain allow it to cover long distances at minimal cost.</p>
+        <p>It features advanced battery technology, providing a competitive range for both city and highway driving. Charging infrastructure is widely available, making it convenient for daily use.</p>
+        <p>The cabin is minimalist yet functional, offering modern tech features for a comfortable driving experience. Safety ratings are high, making it reliable for families and commuters.</p>
+        <p>Overall, the Model 3 combines low running costs with modern design and performance, making it one of the most efficient electric vehicles available in the UK.</p>
+      </div>
 
-      <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Find Efficiency - Pound Per Mile Calculator</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="container">
-    <h1 style="color:#30BCED; text-align:center;">Top 10 Most Efficient Vehicles</h1>
+      <!-- Vehicle 2 -->
+      <div class="vehicle">
+        <h2>Toyota Prius <span>£0.06/mi</span></h2>
+        <img src="images/toyota_prius.jpg" alt="Toyota Prius">
+        <p>The Toyota Prius is a hybrid vehicle renowned for its fuel economy. Its combination of petrol and electric power allows it to achieve impressive miles per gallon.</p>
+        <p>The hybrid system automatically switches between electric and petrol modes, optimizing efficiency depending on driving conditions. It performs well in both city and highway driving.</p>
+        <p>Interior space is generous for a compact car, making it practical for everyday use. Infotainment and driver-assist features enhance the user experience.</p>
+        <p>With consistent reliability and low running costs, the Prius remains a top choice for drivers looking to reduce fuel expenses while maintaining practicality.</p>
+      </div>
 
-    <!-- Vehicle 1 - Tesla Model 3 -->
-    <div class="vehicle">
-      <h2 style="color:#30BCED;">Tesla Model 3 <span style="color:#fc5130;">£0.05/mi</span></h2>
-      <img src="images/tesla_model3.jpg" alt="Tesla Model 3" width="300">
-      <p>The Tesla Model 3 is a fully electric vehicle designed for efficiency and performance. Its aerodynamic design and electric drivetrain allow it to cover long distances at minimal cost.</p>
-      <p>It features advanced battery technology, providing a competitive range for both city and highway driving. Charging infrastructure is widely available, making it convenient for daily use.</p>
-      <p>The cabin is minimalist yet functional, offering modern tech features for a comfortable driving experience. Safety ratings are high, making it reliable for families and commuters.</p>
-      <p>Overall, the Model 3 combines low running costs with modern design and performance, making it one of the most efficient electric vehicles available in the UK.</p>
-    </div>
+      <!-- Vehicle 3 -->
+      <div class="vehicle">
+        <h2>Hyundai Ioniq Electric <span>£0.06/mi</span></h2>
+        <img src="images/hyundai_ioniq.jpg" alt="Hyundai Ioniq Electric">
+        <p>The Hyundai Ioniq Electric is a fully electric compact car designed for urban commuting. It offers a smooth, quiet ride while keeping energy consumption low.</p>
+        <p>Its battery range covers most daily driving needs without frequent charging, and it supports fast charging for longer journeys. Energy recovery systems further improve efficiency.</p>
+        <p>The interior provides modern comforts with an intuitive layout and connectivity features. Cargo space is sufficient for practical use.</p>
+        <p>Combining low running costs with a comfortable ride and user-friendly technology, the Ioniq Electric is an excellent choice for eco-conscious drivers.</p>
+      </div>
 
-    <!-- Vehicle 2 - Toyota Prius -->
-    <div class="vehicle">
-      <h2 style="color:#30BCED;">Toyota Prius <span style="color:#fc5130;">£0.06/mi</span></h2>
-      <img src="images/toyota_prius.jpg" alt="Toyota Prius" width="300">
-      <p>The Toyota Prius is a hybrid vehicle renowned for its fuel economy. Its combination of petrol and electric power allows it to achieve impressive miles per gallon.</p>
-      <p>The hybrid system automatically switches between electric and petrol modes, optimizing efficiency depending on driving conditions. It performs well in both city and highway driving.</p>
-      <p>Interior space is generous for a compact car, making it practical for everyday use. Infotainment and driver-assist features enhance the user experience.</p>
-      <p>With consistent reliability and low running costs, the Prius remains a top choice for drivers looking to reduce fuel expenses while maintaining practicality.</p>
-    </div>
+      <!-- Vehicle 4 -->
+      <div class="vehicle">
+        <h2>Kia e-Niro <span>£0.06/mi</span></h2>
+        <img src="images/kia_eniro.jpg" alt="Kia e-Niro">
+        <p>The Kia e-Niro is an electric SUV offering both efficiency and practicality. Its electric drivetrain provides low running costs and a smooth, silent drive.</p>
+        <p>Battery range is generous for an electric SUV, supporting both city commuting and longer trips. Fast charging capabilities add convenience for longer journeys.</p>
+        <p>Inside, it offers comfortable seating and modern infotainment features, with sufficient storage space for family or daily errands.</p>
+        <p>Overall, the e-Niro balances efficiency, space, and functionality, making it a leading choice among electric SUVs in the UK.</p>
+      </div>
 
-    <!-- Vehicle 3 - Hyundai Ioniq Electric -->
-    <div class="vehicle">
-      <h2 style="color:#30BCED;">Hyundai Ioniq Electric <span style="color:#fc5130;">£0.06/mi</span></h2>
-      <img src="images/hyundai_ioniq.jpg" alt="Hyundai Ioniq Electric" width="300">
-      <p>The Hyundai Ioniq Electric is a fully electric compact car designed for urban commuting. It offers a smooth, quiet ride while keeping energy consumption low.</p>
-      <p>Its battery range covers most daily driving needs without frequent charging, and it supports fast charging for longer journeys. Energy recovery systems further improve efficiency.</p>
-      <p>The interior provides modern comforts with an intuitive layout and connectivity features. Cargo space is sufficient for practical use.</p>
-      <p>Combining low running costs with a comfortable ride and user-friendly technology, the Ioniq Electric is an excellent choice for eco-conscious drivers.</p>
-    </div>
+      <!-- Vehicle 5 -->
+      <div class="vehicle">
+        <h2>Nissan Leaf <span>£0.07/mi</span></h2>
+        <img src="images/nissan_leaf.jpg" alt="Nissan Leaf">
+        <p>The Nissan Leaf is a pioneering electric car that remains popular due to its reliability and efficiency. Its electric powertrain provides very low running costs.</p>
+        <p>It offers a comfortable range for urban and suburban driving, with regenerative braking to maximize energy use. Charging options are convenient for everyday use.</p>
+        <p>The cabin features modern tech and safety features, making it practical for daily commuting and family use.</p>
+        <p>With its combination of affordability, efficiency, and functionality, the Leaf is one of the most accessible electric vehicles in the UK market.</p>
+      </div>
 
-    <!-- Vehicle 4 - Kia e-Niro -->
-    <div class="vehicle">
-      <h2 style="color:#30BCED;">Kia e-Niro <span style="color:#fc5130;">£0.06/mi</span></h2>
-      <img src="images/kia_eniro.jpg" alt="Kia e-Niro" width="300">
-      <p>The Kia e-Niro is an electric SUV offering both efficiency and practicality. Its electric drivetrain provides low running costs and a smooth, silent drive.</p>
-      <p>Battery range is generous for an electric SUV, supporting both city commuting and longer trips. Fast charging capabilities add convenience for longer journeys.</p>
-      <p>Inside, it offers comfortable seating and modern infotainment features, with sufficient storage space for family or daily errands.</p>
-      <p>Overall, the e-Niro balances efficiency, space, and functionality, making it a leading choice among electric SUVs in the UK.</p>
-    </div>
+      <!-- Vehicle 6 -->
+      <div class="vehicle">
+        <h2>BMW i3 <span>£0.08/mi</span></h2>
+        <img src="images/bmw_i3.jpg" alt="BMW i3">
+        <p>The BMW i3 is a compact electric vehicle with a distinctive design and lightweight construction. Its efficiency is enhanced by regenerative braking and urban-focused performance.</p>
+        <p>Range is suitable for city driving and short commutes, and the cabin offers premium materials and modern technology for comfort.</p>
+        <p>The driving experience is agile and responsive, making it enjoyable in urban environments. Safety ratings are high for its class.</p>
+        <p>Overall, the i3 provides an efficient and stylish option for those seeking a compact electric vehicle with BMW quality and reliability.</p>
+      </div>
 
-    <!-- Vehicle 5 - Nissan Leaf -->
-    <div class="vehicle">
-      <h2 style="color:#30BCED;">Nissan Leaf <span style="color:#fc5130;">£0.07/mi</span></h2>
-      <img src="images/nissan_leaf.jpg" alt="Nissan Leaf" width="300">
-      <p>The Nissan Leaf is a pioneering electric car that remains popular due to its reliability and efficiency. Its electric powertrain provides very low running costs.</p>
-      <p>It offers a comfortable range for urban and suburban driving, with regenerative braking to maximize energy use. Charging options are convenient for everyday use.</p>
-      <p>The cabin features modern tech and safety features, making it practical for daily commuting and family use.</p>
-      <p>With its combination of affordability, efficiency, and functionality, the Leaf is one of the most accessible electric vehicles in the UK market.</p>
-    </div>
+      <!-- Vehicle 7 -->
+      <div class="vehicle">
+        <h2>Renault Zoe <span>£0.07/mi</span></h2>
+        <img src="images/renault_zoe.jpg" alt="Renault Zoe">
+        <p>The Renault Zoe is a small electric car perfect for city driving. It combines low running costs with practicality, making it a popular choice in Europe.</p>
+        <p>Battery range is sufficient for most daily trips, and charging is simple with standard and fast chargers. Efficiency is a key feature of this vehicle.</p>
+        <p>The interior is compact but comfortable, with modern controls and infotainment features. Its small footprint makes parking in cities easy.</p>
+        <p>Overall, the Zoe is a highly efficient, user-friendly electric car suitable for those prioritizing low cost and convenience in urban settings.</p>
+      </div>
 
-    <!-- Vehicle 6 - BMW i3 -->
-    <div class="vehicle">
-      <h2 style="color:#30BCED;">BMW i3 <span style="color:#fc5130;">£0.08/mi</span></h2>
-      <img src="images/bmw_i3.jpg" alt="BMW i3" width="300">
-      <p>The BMW i3 is a compact electric vehicle with a distinctive design and lightweight construction. Its efficiency is enhanced by regenerative braking and urban-focused performance.</p>
-      <p>Range is suitable for city driving and short commutes, and the cabin offers premium materials and modern technology for comfort.</p>
-      <p>The driving experience is agile and responsive, making it enjoyable in urban environments. Safety ratings are high for its class.</p>
-      <p>Overall, the i3 provides an efficient and stylish option for those seeking a compact electric vehicle with BMW quality and reliability.</p>
-    </div>
+      <!-- Vehicle 8 -->
+      <div class="vehicle">
+        <h2>Volkswagen ID.3 <span>£0.08/mi</span></h2>
+        <img src="images/vw_id3.jpg" alt="Volkswagen ID.3">
+        <p>The Volkswagen ID.3 is a compact electric hatchback with modern design and efficient energy usage. It is aimed at providing an accessible electric driving experience.</p>
+        <p>Its battery offers a range suitable for both city and highway driving, and regenerative braking improves efficiency. Charging is convenient and fast.</p>
+        <p>The cabin is spacious for its size, with user-friendly tech and comfort-focused design. It provides a balanced driving experience.</p>
+        <p>Overall, the ID.3 combines efficiency, style, and practicality, making it one of the top electric cars for everyday use in the UK.</p>
+      </div>
 
-    <!-- Vehicle 7 - Renault Zoe -->
-    <div class="vehicle">
-      <h2 style="color:#30BCED;">Renault Zoe <span style="color:#fc5130;">£0.07/mi</span></h2>
-      <img src="images/renault_zoe.jpg" alt="Renault Zoe" width="300">
-      <p>The Renault Zoe is a small electric car perfect for city driving. It combines low running costs with practicality, making it a popular choice in Europe.</p>
-      <p>Battery range is sufficient for most daily trips, and charging is simple with standard and fast chargers. Efficiency is a key feature of this vehicle.</p>
-      <p>The interior is compact but comfortable, with modern controls and infotainment features. Its small footprint makes parking in cities easy.</p>
-      <p>Overall, the Zoe is a highly efficient, user-friendly electric car suitable for those prioritizing low cost and convenience in urban settings.</p>
-    </div>
+      <!-- Vehicle 9 -->
+      <div class="vehicle">
+        <h2>Honda e <span>£0.09/mi</span></h2>
+        <img src="images/honda_e.jpg" alt="Honda e">
+        <p>The Honda e is a small, city-focused electric car with an efficient drivetrain. Its compact size makes it ideal for urban environments.</p>
+        <p>Range is best suited for short trips, but its efficiency ensures minimal energy consumption. The car includes modern tech for navigation and connectivity.</p>
+        <p>The cabin is stylish, with a focus on digital displays and user interaction. Comfort and maneuverability are priorities.</p>
+        <p>Overall, the Honda e is a highly efficient, fun-to-drive electric vehicle designed for city commuting and short journeys.</p>
+      </div>
 
-    <!-- Vehicle 8 - Volkswagen ID.3 -->
-    <div class="vehicle">
-      <h2 style="color:#30BCED;">Volkswagen ID.3 <span style="color:#fc5130;">£0.08/mi</span></h2>
-      <img src="images/vw_id3.jpg" alt="Volkswagen ID.3" width="300">
-      <p>The Volkswagen ID.3 is a compact electric hatchback with modern design and efficient energy usage. It is aimed at providing an accessible electric driving experience.</p>
-      <p>Its battery offers a range suitable for both city and highway driving, and regenerative braking improves efficiency. Charging is convenient and fast.</p>
-      <p>The cabin is spacious for its size, with user-friendly tech and comfort-focused design. It provides a balanced driving experience.</p>
-      <p>Overall, the ID.3 combines efficiency, style, and practicality, making it one of the top electric cars for everyday use in the UK.</p>
-    </div>
+      <!-- Vehicle 10 -->
+      <div class="vehicle">
+        <h2>Polestar 2 <span>£0.09/mi</span></h2>
+        <img src="images/polestar_2.jpg" alt="Polestar 2">
+        <p>The Polestar 2 is a premium electric vehicle offering high efficiency and performance. Its design balances aerodynamics with modern styling.</p>
+        <p>Battery range is sufficient for daily commuting and longer trips, with fast charging capabilities enhancing convenience. Energy consumption is low compared to traditional petrol cars.</p>
+        <p>The interior offers comfort, advanced infotainment, and driver-assist features, making it suitable for both personal and family use.</p>
+        <p>Overall, the Polestar 2 combines efficiency, style, and technology, providing a well-rounded electric vehicle choice for UK drivers.</p>
+      </div>
 
-    <!-- Vehicle 9 - Honda e -->
-    <div class="vehicle">
-      <h2 style="color:#30BCED;">Honda e <span style="color:#fc5130;">£0.09/mi</span></h2>
-      <img src="images/honda_e.jpg" alt="Honda e" width="300">
-      <p>The Honda e is a small, city-focused electric car with an efficient drivetrain. Its compact size makes it ideal for urban environments.</p>
-      <p>Range is best suited for short trips, but its efficiency ensures minimal energy consumption. The car includes modern tech for navigation and connectivity.</p>
-      <p>The cabin is stylish, with a focus on digital displays and user interaction. Comfort and maneuverability are priorities.</p>
-      <p>Overall, the Honda e is a highly efficient, fun-to-drive electric vehicle designed for city commuting and short journeys.</p>
-    </div>
-
-    <!-- Vehicle 10 - Polestar 2 -->
-    <div class="vehicle">
-      <h2 style="color:#30BCED;">Polestar 2 <span style="color:#fc5130;">£0.09/mi</span></h2>
-      <img src="images/polestar_2.jpg" alt="Polestar 2" width="300">
-      <p>The Polestar 2 is a premium electric vehicle offering high efficiency and performance. Its design balances aerodynamics with modern styling.</p>
-      <p>Battery range is sufficient for daily commuting and longer trips, with fast charging capabilities enhancing convenience. Energy consumption is low compared to traditional petrol cars.</p>
-      <p>The interior offers comfort, advanced infotainment, and driver-assist features, making it suitable for both personal and family use.</p>
-      <p>Overall, the Polestar 2 combines efficiency, style, and technology, providing a well-rounded electric vehicle choice for UK drivers.</p>
-    </div>
-
-  </div>
-</body>
-</html>
-
-      <!-- Add Vehicles 3-10 similarly -->
     </div>
   </div>
 </body>
