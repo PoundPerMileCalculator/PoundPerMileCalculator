@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Images - Pound Per Mile Calculator</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: #303036;
+      font-family: 'League Spartan', sans-serif;
+      color: #30BCED;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 40px;
+    }
+    .gallery-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .vehicle-card {
+      background-color: #fffaff;
+      border-radius: 12px;
+      padding: 15px;
+      width: 250px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .vehicle-card img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .vehicle-card h3 {
+      margin: 10px 0 5px 0;
+      font-size: 1.1rem;
+    }
+    .ppm {
+      color: #fc5130;
+      font-weight: bold;
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Vehicle Gallery</h1>
+
+<div class="gallery-container">
+
+  <!-- Example Vehicle Card -->
+  <div class="vehicle-card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Tesla_Model_3_parked%2C_front_driver_side.jpg" alt="Tesla Model 3">
+    <h3>Tesla Model 3 <span class="ppm">£0.05/mi</span></h3>
+  </div>
+
+  <div class="vehicle-card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Toyota_Prius_III_%282009%29.jpg" alt="Toyota Prius">
+    <h3>Toyota Prius <span class="ppm">£0.06/mi</span></h3>
+  </div>
+
+  <div class="vehicle-card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Hyundai_Ioniq_EV_IMG_0927.jpg" alt="Hyundai Ioniq Electric">
+    <h3>Hyundai Ioniq Electric <span class="ppm">£0.06/mi</span></h3>
+  </div>
+
+  <div class="vehicle-card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/28/Kia_e-Niro_IMG_0134.jpg" alt="Kia e-Niro">
+    <h3>Kia e-Niro <span class="ppm">£0.06/mi</span></h3>
+  </div>
+
+  <div class="vehicle-card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Nissan_Leaf_IMG_20190121_140051.jpg" alt="Nissan Leaf">
+    <h3>Nissan Leaf <span class="ppm">£0.07/mi</span></h3>
+  </div>
+
+  <div class="vehicle-card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/BMW_i3_IMG_20180422_105913.jpg" alt="BMW i3">
+    <h3>BMW i3 <span class="ppm">£0.08/mi</span></h3>
+  </div>
+
+  <div class="vehicle-card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Renault_Zoe_IMG_1527.jpg" alt="Renault Zoe">
+    <h3>Renault Zoe <span class="ppm">£0.07/mi</span></h3>
+  </div>
+
+  <div class="vehicle-card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/Volkswagen_ID3_IMG_1397.jpg" alt="Volkswagen ID.3">
+    <h3>Volkswagen ID.3 <span class="ppm">£0.08/mi</span></h3>
+  </div>
+
+  <div class="vehicle-card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Honda_e_IMG_3476.jpg" alt="Honda e">
+    <h3>Honda e <span class="ppm">£0.09/mi</span></h3>
+  </div>
+
+  <div class="vehicle-card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/74/Polestar_2_IMG_5687.jpg" alt="Polestar 2">
+    <h3>Polestar 2 <span class="ppm">£0.09/mi</span></h3>
+  </div>
+
+</div>
+
+</body>
+</html>
