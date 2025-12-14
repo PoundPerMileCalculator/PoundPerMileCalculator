@@ -7,9 +7,9 @@
 <style>
 /* Base body styling */
 body {
-  background-color: #303036;
+  background-color: #303036;       
   font-family: 'League Spartan', sans-serif;
-  color: #30BCED;
+  color: #30BCED;                  
   text-align: center;
   margin: 0;
   padding: 0;
@@ -17,7 +17,7 @@ body {
 
 /* Container box */
 .container {
-  background-color: #fffaff;
+  background-color: #fffaff;       
   padding: 40px 30px;
   max-width: 750px;
   margin: 50px auto;
@@ -108,7 +108,7 @@ button:disabled {
   margin-top: 25px;
   font-size: 1.5rem;
   font-weight: bold;
-  color: #fc5130;
+  color: #fc5130;          
 }
 
 /* Responsive */
@@ -170,58 +170,39 @@ button:disabled {
 </div>
 
 <script>
-// Minimal, valid vehiclesData for the first 10 companies with sample models
+// Placeholder for vehicle data
 const vehiclesData = {
-  "Ford": [
-    { model: "Fiesta" },
-    { model: "Focus" },
-    { model: "Mustang" }
-  ],
-  "Toyota": [
-    { model: "Prius" },
-    { model: "Corolla" },
-    { model: "Yaris" }
-  ],
-  "Volkswagen": [
-    { model: "Golf" },
-    { model: "Passat" },
-    { model: "Polo" }
-  ],
-  "Honda": [
-    { model: "Civic" },
-    { model: "Accord" },
-    { model: "Jazz" }
-  ],
-  "BMW": [
-    { model: "3 Series" },
-    { model: "5 Series" },
-    { model: "X5" }
-  ],
-  "Mercedes": [
-    { model: "C-Class" },
-    { model: "E-Class" },
-    { model: "S-Class" }
-  ],
-  "Nissan": [
-    { model: "Leaf" },
-    { model: "Qashqai" },
-    { model: "Juke" }
-  ],
-  "Hyundai": [
-    { model: "i10" },
-    { model: "i20" },
-    { model: "Kona" }
-  ],
-  "Kia": [
-    { model: "Picanto" },
-    { model: "Ceed" },
-    { model: "Sportage" }
-  ],
-  "Audi": [
-    { model: "A3" },
-    { model: "A4" },
-    { model: "Q5" }
-  ]
+  "Ford": [],
+  "Toyota": [],
+  "Volkswagen": [],
+  "BMW": [],
+  "Mercedes": [],
+  "Audi": [],
+  "Honda": [],
+  "Hyundai": [],
+  "Kia": [],
+  "Nissan": []
+};
+
+// Fuel & Energy prices per area
+const fuelPrices = {
+  "Wales": { petrol: 135, diesel: 143 },
+  "Scotland": { petrol: 135, diesel: 144 },
+  "North England": { petrol: 136, diesel: 145 },
+  "East England": { petrol: 137, diesel: 145 },
+  "South England": { petrol: 138, diesel: 146 },
+  "West England": { petrol: 136, diesel: 144 },
+  "London": { petrol: 138, diesel: 146 }
+};
+
+const energyPrices = {
+  "Wales": 25.8,
+  "Scotland": 26.0,
+  "North England": 25.0,
+  "East England": 26.0,
+  "South England": 26.9,
+  "West England": 26.0,
+  "London": 26.05
 };
 
 // DOM elements
@@ -265,13 +246,13 @@ function checkButtonState() {
   calculateBtn.disabled = !(brandSelect.value && modelSelect.value && areaSelect.value);
 }
 
-// Placeholder calculate logic
+// Calculate cost (placeholder, real data will go in later)
 calculateBtn.addEventListener('click', () => {
   const brand = brandSelect.value;
   const model = modelSelect.value;
   const area = areaSelect.value;
 
-  resultDiv.innerText = `You selected: ${brand} ${model} in ${area}.`;
+  resultDiv.innerText = `Select a vehicle with MPG data to calculate £/mile.`;
   totalDiv.innerText = '';
 });
 </script>
