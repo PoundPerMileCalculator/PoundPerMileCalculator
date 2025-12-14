@@ -31,12 +31,18 @@ const energyPrices = {
 
 // --- Load vehicles.json ---
 fetch('vehicles.json')
-  .then(res => res.json())
+  .then(res => {
+    if (!res.ok) throw new Error('Could not load vehicles.json');
+    return res.json();
+  })
   .then(data => {
     vehiclesData = data;
     populateBrands();
   })
-  .catch(err => console.error('Error loading vehicles:', err));
+  .catch(err => {
+    console.error('Error loading vehicles.json:', err);
+    resultDiv.innerText = 'Error loading vehicle data. Please check the console.';
+  });
 
 // --- Populate Brand Dropdown ---
 function populateBrands() {
@@ -50,17 +56,19 @@ function populateBrands() {
 
 // --- Update Model Dropdown on Brand Change ---
 brandSelect.addEventListener('change', () => {
-  modelSelect.disabled = !brandSelect.value;
+  const brand = brandSelect.value;
   modelSelect.innerHTML = '<option value="">--Select Model--</option>';
-  
-  if (brandSelect.value) {
-    vehiclesData[brandSelect.value].forEach(vehicle => {
+  modelSelect.disabled = !brand;
+
+  if (brand && vehiclesData[brand]) {
+    vehiclesData[brand].forEach(vehicle => {
       const option = document.createElement('option');
       option.value = vehicle.model;
       option.textContent = vehicle.model;
       modelSelect.appendChild(option);
     });
   }
+
   checkButtonState();
 });
 
@@ -78,29 +86,39 @@ calculateBtn.addEventListener('click', () => {
   const model = modelSelect.value;
   const area = areaSelect.value;
 
-  const vehicle = vehiclesData[brand].find(v => v.model === model);
-  let costPerMile = 0;
-
-  if (!vehicle) {
+  if (!vehiclesData[brand]) {
     resultDiv.innerText = 'Vehicle data not found.';
     return;
   }
 
-  // --- Calculate cost per mile ---
+  const vehicle = vehiclesData[brand].find(v => v.model === model);
+  if (!vehicle) {
+    resultDiv.innerText = 'Model data not found.';
+    return;
+  }
+
+  let costPerMile = 0;
+
+  // Petrol
   if (vehicle.fuel === 'petrol') {
     costPerMile = (fuelPrices[area].petrol / 100) / vehicle.mpg;
-  } else if (vehicle.fuel === 'diesel') {
+  }
+  // Diesel
+  else if (vehicle.fuel === 'diesel') {
     costPerMile = (fuelPrices[area].diesel / 100) / vehicle.mpg;
-  } else if (vehicle.fuel === 'electric') {
+  }
+  // Electric
+  else if (vehicle.fuel === 'electric') {
     costPerMile = (energyPrices[area] / 100) * vehicle.kwh_per_mile;
-  } else {
-    // Fun cars, jets, etc.
-    costPerMile = 10; // fallback arbitrary value
+  }
+  // Fun vehicles or missing fuel type
+  else {
+    costPerMile = 10; // fallback arbitrary
   }
 
   resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile.`;
 
-  // --- Ask user for miles to calculate total ---
+  // Prompt for miles traveled
   const milesInput = prompt("How many miles will you be traveling?");
   if (milesInput && !isNaN(milesInput)) {
     const totalMiles = parseFloat(milesInput);
