@@ -6,9 +6,9 @@ const calculateBtn = document.getElementById('calculateBtn');
 const resultDiv = document.getElementById('result');
 const totalDiv = document.getElementById('totalCost');
 
-let vehiclesData = {};
+let vehiclesData = {}; // Will hold JSON vehicle data
 
-// --- Fuel & Energy Prices per area ---
+// Fuel & Energy Prices per region
 const fuelPrices = {
   "Wales": { petrol: 135, diesel: 143 },
   "Scotland": { petrol: 135, diesel: 144 },
@@ -29,7 +29,7 @@ const energyPrices = {
   "London": 26.05
 };
 
-// --- Load vehicles.json ---
+// Load vehicles.json
 fetch('vehicles.json')
   .then(res => {
     if (!res.ok) throw new Error('Could not load vehicles.json');
@@ -44,9 +44,9 @@ fetch('vehicles.json')
     resultDiv.innerText = 'Error loading vehicle data. Check console.';
   });
 
-// --- Populate Brand Dropdown ---
+// Populate brand dropdown
 function populateBrands() {
-  Object.keys(vehiclesData).forEach(brand => {
+  Object.keys(vehiclesData).sort().forEach(brand => {
     const option = document.createElement('option');
     option.value = brand;
     option.textContent = brand;
@@ -54,7 +54,7 @@ function populateBrands() {
   });
 }
 
-// --- Update Model Dropdown on Brand Change ---
+// Update model dropdown when brand changes
 brandSelect.addEventListener('change', () => {
   const brand = brandSelect.value;
   modelSelect.innerHTML = '<option value="">--Select Model--</option>';
@@ -72,7 +72,7 @@ brandSelect.addEventListener('change', () => {
   checkButtonState();
 });
 
-// --- Enable/Disable Calculate Button ---
+// Enable/disable calculate button
 modelSelect.addEventListener('change', checkButtonState);
 areaSelect.addEventListener('change', checkButtonState);
 
@@ -80,7 +80,7 @@ function checkButtonState() {
   calculateBtn.disabled = !(brandSelect.value && modelSelect.value && areaSelect.value);
 }
 
-// --- Calculate £/mile and Total Cost ---
+// Calculate £/mile and total cost
 calculateBtn.addEventListener('click', () => {
   const brand = brandSelect.value;
   const model = modelSelect.value;
@@ -88,33 +88,34 @@ calculateBtn.addEventListener('click', () => {
 
   if (!vehiclesData[brand]) {
     resultDiv.innerText = 'Vehicle data not found.';
+    totalDiv.innerText = '';
     return;
   }
 
   const vehicle = vehiclesData[brand].find(v => v.model === model);
   if (!vehicle) {
     resultDiv.innerText = 'Model data not found.';
+    totalDiv.innerText = '';
     return;
   }
 
   let costPerMile = 0;
 
-  switch(vehicle.fuel) {
-    case 'petrol':
-      costPerMile = (fuelPrices[area].petrol / 100) / vehicle.mpg;
-      break;
-    case 'diesel':
-      costPerMile = (fuelPrices[area].diesel / 100) / vehicle.mpg;
-      break;
-    case 'electric':
-      if (!vehicle.kwh_per_mile) {
-        resultDiv.innerText = 'Electric vehicle missing kWh per mile data.';
-        return;
-      }
-      costPerMile = (energyPrices[area] / 100) * vehicle.kwh_per_mile;
-      break;
-    default:
-      costPerMile = 10; // fallback for fun vehicles or missing fuel type
+  // Petrol
+  if (vehicle.fuel === 'petrol') {
+    costPerMile = (fuelPrices[area].petrol / 100) / vehicle.mpg;
+  }
+  // Diesel
+  else if (vehicle.fuel === 'diesel') {
+    costPerMile = (fuelPrices[area].diesel / 100) / vehicle.mpg;
+  }
+  // Electric
+  else if (vehicle.fuel === 'electric') {
+    costPerMile = (energyPrices[area] / 100) * vehicle.kwh_per_mile;
+  }
+  // Fun or missing type
+  else {
+    costPerMile = 10; // arbitrary fallback
   }
 
   resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile.`;
