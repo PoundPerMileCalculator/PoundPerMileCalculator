@@ -561,6 +561,81 @@ calculateBtn.addEventListener('click', ()=> {
   }
 });
 </script>
+<style>
+/* ================= FOOTER ================= */
+
+.site-footer {
+  background-color: #050401;
+  color: #fffaff;
+  padding: 35px 20px;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-top: 70px;
+  border-top: 1px solid rgba(255, 250, 255, 0.15);
+}
+
+.site-footer p {
+  max-width: 950px;
+  margin: 0 auto 18px;
+  opacity: 0.9;
+}
+
+.footer-links {
+  margin-top: 15px;
+}
+
+.footer-links a {
+  color: #30BCED;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+  color: #fc5130;
+  text-decoration: underline;
+}
+
+.site-footer .copyright {
+  margin-top: 18px;
+  font-size: 0.8rem;
+  opacity: 0.65;
+}
+
+/* Mobile optimisation */
+@media (max-width: 600px) {
+  .site-footer {
+    font-size: 0.85rem;
+    padding: 30px 15px;
+  }
+
+  .footer-links a {
+    display: inline-block;
+    margin: 6px 8px;
+  }
+}
+</style>
+
+<footer class="site-footer">
+  <p>
+    This website is still in its early stages, so we apologise if your vehicle is not yet shown.
+    <br><br>
+    Vehicle efficiency figures are recorded under peak performance conditions.
+    We do not guarantee these values in real-world driving scenarios, but they are intended to provide a useful comparison between vehicles.
+  </p>
+
+  <div class="footer-links">
+    <a href="privacy.html">Privacy Policy</a> |
+    <a href="terms.html">Terms of Use</a> |
+    <a href="cookies.html">Cookie Policy</a>
+  </div>
+
+  <div class="copyright">
+    © 2025 Pound Per Mile Calculator. All rights reserved.
+  </div>
+</footer>
 
 </body>
 </html>
