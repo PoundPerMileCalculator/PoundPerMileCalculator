@@ -192,14 +192,27 @@ const vehiclesData = {
     { model: "Z4", fuel: "petrol", mpg: 27 }
   ],
   "F1": [
-    { model: "Mercedes W14", fuel: "racing fuel", mpg: 3 },
-    { model: "Red Bull RB19", fuel: "racing fuel", mpg: 3 },
-    { model: "Ferrari SF-23", fuel: "racing fuel", mpg: 3 },
-    { model: "McLaren MCL60", fuel: "racing fuel", mpg: 3 },
-    { model: "Alpine A523", fuel: "racing fuel", mpg: 3 },
-    { model: "Aston Martin AMR23", fuel: "racing fuel", mpg: 3 },
-    { model: "AlphaTauri AT04", fuel: "racing fuel", mpg: 3 },
-    { model: "Haas VF-23", fuel: "racing fuel", mpg: 3 }
+    { "model": "Mercedes W12", "fuel": "petrol", "mpg": 3 },
+    { "model": "Red Bull RB19", "fuel": "petrol", "mpg": 3 },
+    { "model": "Ferrari SF21", "fuel": "petrol", "mpg": 2.8 },
+    { "model": "McLaren MCL35M", "fuel": "petrol", "mpg": 2.9 },
+    { "model": "Alpine A521", "fuel": "petrol", "mpg": 2.8 },
+    { "model": "AlphaTauri AT02", "fuel": "petrol", "mpg": 3 },
+    { "model": "Aston Martin AMR21", "fuel": "petrol", "mpg": 2.7 },
+    { "model": "Williams FW43B", "fuel": "petrol", "mpg": 2.9 },
+    { "model": "Mercedes W13", "fuel": "petrol", "mpg": 2.9 },
+    { "model": "Red Bull RB18", "fuel": "petrol", "mpg": 3 },
+    { "model": "Ferrari SF90", "fuel": "petrol", "mpg": 2.8 },
+    { "model": "McLaren MCL36", "fuel": "petrol", "mpg": 2.9 },
+    { "model": "Alpine A522", "fuel": "petrol", "mpg": 2.8 },
+    { "model": "AlphaTauri AT03", "fuel": "petrol", "mpg": 3 },
+    { "model": "Aston Martin AMR22", "fuel": "petrol", "mpg": 2.7 },
+    { "model": "Williams FW44", "fuel": "petrol", "mpg": 2.9 },
+    { "model": "Mercedes W14", "fuel": "petrol", "mpg": 2.9 },
+    { "model": "Red Bull RB20", "fuel": "petrol", "mpg": 3 },
+    { "model": "Ferrari F1-75", "fuel": "petrol", "mpg": 2.8 },
+    { "model": "McLaren MCL60", "fuel": "petrol", "mpg": 2.9 }
+
   ],
   "Airliners": [
     { model: "Boeing 737", fuel: "jet fuel", mpg: 0.03 },
@@ -366,6 +379,7 @@ calculateBtn.addEventListener('click', () => {
   let costPerMile = 0;
 
   if (vehicle.fuel === 'petrol') costPerMile = (fuelPrices[area].petrol / 100) / vehicle.mpg;
+  else if (vehicle.fuel === 'hybrid') costPerMile = (fuelPrices[area].petrol / 100) / vehicle.mpg;
   else if (vehicle.fuel === 'diesel') costPerMile = (fuelPrices[area].diesel / 100) / vehicle.mpg;
   else if (vehicle.fuel === 'electric') costPerMile = (energyPrices[area] / 100) * vehicle.kwh_per_mile;
   else if (vehicle.fuel === 'racing fuel') costPerMile = (3.00 / vehicle.mpg); // £3 per gallon example
