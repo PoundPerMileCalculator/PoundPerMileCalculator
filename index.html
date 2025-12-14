@@ -3,240 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <title>Pound Per Mile Calculator</title>
-  <!-- Google Font League Spartan -->
+  
+  <!-- League Spartan font -->
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    /* ======================= */
-    /* STYLE.CSS EMBEDDED HERE */
-    /* ======================= */
-
-    body {
-      font-family: 'League Spartan', sans-serif;
-      background-color: #fffaff;
-      color: #30BCED;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-
-    .container {
-      max-width: 700px;
-      margin: 50px auto;
-      background-color: #ffffff;
-      padding: 40px 30px;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    }
-
-    h1 {
-      font-size: 3em;
-      margin-bottom: 30px;
-      color: #30BCED;
-    }
-
-    select, button {
-      margin: 15px 0;
-      padding: 12px 18px;
-      font-size: 1.1em;
-      border-radius: 12px;
-      border: 2px solid #30BCED;
-      outline: none;
-      cursor: pointer;
-      background-color: #fff;
-      color: #30BCED;
-      transition: all 0.3s ease;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-    }
-
-    select:disabled {
-      background-color: #f0f0f0;
-      color: #999;
-      cursor: not-allowed;
-    }
-
-    select:hover:not(:disabled), button:hover {
-      background-color: #30BCED;
-      color: #fff;
-      box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-    }
-
-    button {
-      font-weight: bold;
-      background: linear-gradient(135deg, #30BCED, #1DA1F2);
-      color: #fff;
-      border: none;
-    }
-
-    #result {
-      margin-top: 30px;
-      font-size: 1.8em;
-      font-weight: bold;
-      color: #fc5130;
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-
-    .readme {
-      text-align: left;
-      padding: 15px 25px;
-      margin-bottom: 30px;
-      background-color: #fef8f8;
-      border-left: 6px solid #30BCED;
-      border-radius: 10px;
-      box-shadow: 1px 1px 5px rgba(0,0,0,0.05);
-    }
-
-    .readme h2 {
-      margin-top: 0;
-      color: #30BCED;
-    }
-
-    @media screen and (max-width: 768px) {
-      .container {
-        margin: 20px;
-        padding: 30px 20px;
-      }
-      h1 {
-        font-size: 2.2em;
-      }
-      select, button {
-        width: 80%;
-      }
-    }
-  </style>
+  
+  <!-- Link external CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-  <div class="readme">
-    <h2>Welcome to the Pound Per Mile Calculator</h2>
-    <p>Select your vehicle brand and model, then choose your area. We'll calculate the approximate cost per mile using current UK fuel and energy prices.</p>
+  <div class="container">
+    <div class="readme">
+      <h2>Welcome to the Pound Per Mile Calculator</h2>
+      <p>Select your vehicle brand and model, then choose your area. We'll calculate the approximate cost per mile using current UK fuel and energy prices.</p>
+    </div>
+
+    <h1>Pound Per Mile Calculator</h1>
+
+    <label for="brand">Select Brand:</label>
+    <select id="brand">
+      <option value="">--Select Brand--</option>
+    </select>
+
+    <label for="model">Select Model:</label>
+    <select id="model" disabled>
+      <option value="">--Select a Brand First--</option>
+    </select>
+
+    <label for="area">Select Area:</label>
+    <select id="area">
+      <option value="">--Select Area--</option>
+      <option value="Wales">Wales</option>
+      <option value="Scotland">Scotland</option>
+      <option value="North England">North England</option>
+      <option value="East England">East England</option>
+      <option value="South England">South England</option>
+      <option value="West England">West England</option>
+      <option value="London">London</option>
+    </select>
+
+    <button id="calculateBtn" disabled>Calculate £/Mile</button>
+
+    <div id="result"></div>
   </div>
 
-  <h1>Pound Per Mile Calculator</h1>
-
-  <label for="brand">Select Brand:</label>
-  <select id="brand">
-    <option value="">--Select Brand--</option>
-  </select>
-
-  <label for="model">Select Model:</label>
-  <select id="model" disabled>
-    <option value="">--Select a Brand First--</option>
-  </select>
-
-  <label for="area">Select Area:</label>
-  <select id="area">
-    <option value="">--Select Area--</option>
-    <option value="Wales">Wales</option>
-    <option value="Scotland">Scotland</option>
-    <option value="North England">North England</option>
-    <option value="East England">East England</option>
-    <option value="South England">South England</option>
-    <option value="West England">West England</option>
-    <option value="London">London</option>
-  </select>
-
-  <button id="calculateBtn" disabled>Calculate £/Mile</button>
-
-  <div id="result"></div>
-</div>
-
-<script>
-  // =======================
-  // JS + DATA INLINE HERE
-  // =======================
-  const fuelPrices = {
-    "Wales": { petrol: 135, diesel: 143 },
-    "Scotland": { petrol: 135, diesel: 144 },
-    "North England": { petrol: 136, diesel: 145 },
-    "East England": { petrol: 137, diesel: 145 },
-    "South England": { petrol: 138, diesel: 146 },
-    "West England": { petrol: 136, diesel: 144 },
-    "London": { petrol: 138, diesel: 146 }
-  };
-
-  const energyPrices = {
-    "Wales": 25.8,
-    "Scotland": 26.0,
-    "North England": 25.0,
-    "East England": 26.0,
-    "South England": 26.9,
-    "West England": 26.0,
-    "London": 26.05
-  };
-
-  // Minimal sample data for testing
-  const vehiclesData = {
-    "Ford": [
-      { model: "Fiesta", fuel: "petrol", mpg: 50 },
-      { model: "Focus", fuel: "diesel", mpg: 55 }
-    ],
-    "Tesla": [
-      { model: "Model 3", fuel: "electric", kwh_per_mile: 0.3 }
-    ]
-  };
-
-  const brandSelect = document.getElementById('brand');
-  const modelSelect = document.getElementById('model');
-  const areaSelect = document.getElementById('area');
-  const calculateBtn = document.getElementById('calculateBtn');
-  const resultDiv = document.getElementById('result');
-
-  // Populate Brands
-  Object.keys(vehiclesData).forEach(brand => {
-    const option = document.createElement('option');
-    option.value = brand;
-    option.textContent = brand;
-    brandSelect.appendChild(option);
-  });
-
-  brandSelect.addEventListener('change', () => {
-    modelSelect.disabled = !brandSelect.value;
-    modelSelect.innerHTML = '<option value="">--Select Model--</option>';
-    if (!brandSelect.value) return;
-    vehiclesData[brandSelect.value].forEach(vehicle => {
-      const option = document.createElement('option');
-      option.value = vehicle.model;
-      option.textContent = vehicle.model;
-      modelSelect.appendChild(option);
-    });
-    checkButtonState();
-  });
-
-  // Enable/disable button
-  function checkButtonState() {
-    calculateBtn.disabled = !(brandSelect.value && modelSelect.value && areaSelect.value);
-  }
-  modelSelect.addEventListener('change', checkButtonState);
-  areaSelect.addEventListener('change', checkButtonState);
-
-  // Calculate cost
-  calculateBtn.addEventListener('click', () => {
-    const brand = brandSelect.value;
-    const model = modelSelect.value;
-    const area = areaSelect.value;
-    const vehicle = vehiclesData[brand].find(v => v.model === model);
-
-    let costPerMile = 0;
-    const fuelType = vehicle.fuel;
-
-    if (fuelType === "petrol") {
-      costPerMile = (fuelPrices[area].petrol / 100) / (vehicle.mpg || 1);
-    } else if (fuelType === "diesel") {
-      costPerMile = (fuelPrices[area].diesel / 100) / (vehicle.mpg || 1);
-    } else if (fuelType === "electric") {
-      costPerMile = (energyPrices[area] / 100) * (vehicle.kwh_per_mile || 0.3);
-    }
-
-    resultDiv.innerText = `The estimated cost to run ${brand} ${model} in ${area} is £${costPerMile.toFixed(2)} per mile.`;
-  });
-</script>
-
+  <!-- Link external JS -->
+  <script src="script.js"></script>
 </body>
 </html>
-
