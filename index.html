@@ -132,6 +132,7 @@ button:disabled {
 
   <h1>Pound Per Mile Calculator</h1>
 
+  <!-- Instructions -->
   <p class="readme">
     Welcome! Select your vehicle brand and model, then choose your area. 
     This calculator will show your estimated running cost per mile and total cost for your trip.
@@ -170,21 +171,21 @@ button:disabled {
 </div>
 
 <script>
-// Placeholder for vehicle data
+// Placeholder vehicle data
 const vehiclesData = {
-  "Ford": [],
-  "Toyota": [],
-  "Volkswagen": [],
-  "BMW": [],
-  "Mercedes": [],
-  "Audi": [],
-  "Honda": [],
-  "Hyundai": [],
-  "Kia": [],
-  "Nissan": []
+  "Ford": [{ model: "Fiesta", fuel: "petrol", mpg: 50 }],
+  "Toyota": [{ model: "Corolla", fuel: "petrol", mpg: 55 }],
+  "Volkswagen": [{ model: "Golf", fuel: "diesel", mpg: 52 }],
+  "BMW": [{ model: "3 Series", fuel: "diesel", mpg: 50 }],
+  "Mercedes": [{ model: "C Class", fuel: "petrol", mpg: 48 }],
+  "Audi": [{ model: "A4", fuel: "petrol", mpg: 49 }],
+  "Honda": [{ model: "Civic", fuel: "petrol", mpg: 50 }],
+  "Hyundai": [{ model: "i30", fuel: "petrol", mpg: 48 }],
+  "Kia": [{ model: "Ceed", fuel: "diesel", mpg: 52 }],
+  "Nissan": [{ model: "Leaf", fuel: "electric", kwh_per_mile: 0.3 }]
 };
 
-// Fuel & Energy prices per area
+// Fuel & energy prices per area
 const fuelPrices = {
   "Wales": { petrol: 135, diesel: 143 },
   "Scotland": { petrol: 135, diesel: 144 },
@@ -221,7 +222,7 @@ Object.keys(vehiclesData).forEach(brand => {
   brandSelect.appendChild(option);
 });
 
-// Update models dropdown
+// Update models dropdown when brand changes
 brandSelect.addEventListener('change', () => {
   const brand = brandSelect.value;
   modelSelect.innerHTML = '<option value="">--Select Model--</option>';
@@ -246,14 +247,31 @@ function checkButtonState() {
   calculateBtn.disabled = !(brandSelect.value && modelSelect.value && areaSelect.value);
 }
 
-// Calculate cost (placeholder, real data will go in later)
+// Calculate cost
 calculateBtn.addEventListener('click', () => {
   const brand = brandSelect.value;
   const model = modelSelect.value;
   const area = areaSelect.value;
+  const vehicle = vehiclesData[brand].find(v => v.model === model);
 
-  resultDiv.innerText = `Select a vehicle with MPG data to calculate £/mile.`;
-  totalDiv.innerText = '';
+  if (!vehicle) return;
+
+  let costPerMile = 0;
+  if (vehicle.fuel === 'petrol') costPerMile = (fuelPrices[area].petrol / 100) / vehicle.mpg;
+  else if (vehicle.fuel === 'diesel') costPerMile = (fuelPrices[area].diesel / 100) / vehicle.mpg;
+  else if (vehicle.fuel === 'electric') costPerMile = (energyPrices[area] / 100) * vehicle.kwh_per_mile;
+  else costPerMile = 10;
+
+  resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile.`;
+
+  const milesInput = prompt("How many miles will you be traveling?");
+  if (milesInput && !isNaN(milesInput)) {
+    const totalMiles = parseFloat(milesInput);
+    const totalCost = costPerMile * totalMiles;
+    totalDiv.innerText = `Total estimated cost for ${totalMiles} miles: £${totalCost.toFixed(2)}`;
+  } else {
+    totalDiv.innerText = '';
+  }
 });
 </script>
 
