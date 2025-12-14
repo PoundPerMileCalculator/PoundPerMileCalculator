@@ -14,8 +14,6 @@ body {
   margin: 0;
   padding: 0;
 }
-
-/* Container box */
 .container {
   background-color: #fffaff;
   padding: 40px 30px;
@@ -24,33 +22,25 @@ body {
   border-radius: 15px;
   box-shadow: 0 6px 25px rgba(0,0,0,0.25);
 }
-
-/* Headings and paragraphs */
 h1 {
   margin-bottom: 15px;
   font-size: 2.2rem;
 }
-
 .readme {
   font-size: 1.1rem;
   margin-bottom: 30px;
   line-height: 1.6;
   color: #30BCED;
 }
-
-/* Navigation links */
 nav a {
   text-decoration: none;
   color: #30BCED;
   font-weight: bold;
   margin: 0 8px;
 }
-
 nav a:hover {
   color: #fc5130;
 }
-
-/* Dropdowns */
 .dropdowns {
   display: flex;
   flex-direction: column;
@@ -58,12 +48,10 @@ nav a:hover {
   gap: 15px;
   margin-bottom: 25px;
 }
-
 .dropdowns label {
   margin-bottom: 5px;
   font-weight: bold;
 }
-
 .dropdowns select {
   width: 250px;
   padding: 12px 15px;
@@ -75,13 +63,10 @@ nav a:hover {
   cursor: pointer;
   transition: all 0.2s ease;
 }
-
 .dropdowns select:hover {
   border-color: #30BCED;
   box-shadow: 0 2px 6px rgba(48, 188, 237, 0.3);
 }
-
-/* Button styling */
 button {
   padding: 12px 25px;
   font-size: 1.1rem;
@@ -93,33 +78,25 @@ button {
   cursor: pointer;
   transition: background 0.3s ease;
 }
-
 button:hover:not(:disabled) {
   background-color: #1fa4d6;
 }
-
 button:disabled {
   background-color: #999;
   cursor: not-allowed;
 }
-
-/* Result displays */
 .result, .total-cost {
   margin-top: 25px;
   font-size: 1.5rem;
   font-weight: bold;
   color: #fc5130;
 }
-
-/* Footer */
 footer {
   margin-top: 40px;
   font-size: 0.9rem;
   color: #050401;
   line-height: 1.4;
 }
-
-/* Responsive */
 @media (max-width: 500px) {
   .dropdowns select {
     width: 90%;
@@ -130,8 +107,6 @@ footer {
 <body>
 
 <div class="container">
-
-  <!-- Navigation -->
   <nav>
     <a href="index.html">Home</a> | 
     <a href="efficiency.html">Find Efficiency</a> | 
@@ -140,24 +115,20 @@ footer {
 
   <h1>Pound Per Mile Calculator</h1>
 
-  <!-- Instructions -->
   <p class="readme">
     Welcome! Select your vehicle brand and model, then choose your area. 
     The calculator will show your estimated cost per mile. Optionally, you can enter the distance to get the total cost.
   </p>
 
-  <!-- Dropdowns -->
   <div class="dropdowns">
     <label for="brand">Brand:</label>
     <select id="brand">
       <option value="">--Select Brand--</option>
-      <!-- Brands will be populated here via JS -->
     </select>
 
     <label for="model">Model:</label>
     <select id="model" disabled>
       <option value="">--Select Model--</option>
-      <!-- Models will be populated here via JS -->
     </select>
 
     <label for="area">Region:</label>
@@ -178,11 +149,9 @@ footer {
   <div class="result" id="result"></div>
   <div class="total-cost" id="totalCost"></div>
 
-  <!-- Footer -->
   <footer>
     The website is still in early stages, so we apologise if your vehicle isn't shown. Each vehicle efficiency is recorded at peak performance; we do not guarantee these figures in real-world cases, but they provide a good comparison.
   </footer>
-
 </div>
 
 <script>
@@ -194,12 +163,25 @@ const calculateBtn = document.getElementById('calculateBtn');
 const resultDiv = document.getElementById('result');
 const totalDiv = document.getElementById('totalCost');
 
-// Vehicle data placeholder
+// Vehicle data
 const vehiclesData = {
-  // Vehicle brands & models will be added here later
+  "Ford": [
+    { model: "Fiesta", fuel: "petrol", mpg: 50 },
+    { model: "Focus", fuel: "petrol", mpg: 45 },
+    { model: "Kuga", fuel: "petrol", mpg: 38 },
+    { model: "Puma", fuel: "hybrid", mpg: 44 },
+    { model: "Mondeo", fuel: "diesel", mpg: 50 }
+  ],
+  "Fighter Jets": [
+    { model: "F-22 Raptor", fuel: "jet fuel", mpg: 0.5 },
+    { model: "F-35 Lightning II", fuel: "jet fuel", mpg: 0.45 },
+    { model: "Eurofighter Typhoon", fuel: "jet fuel", mpg: 0.4 },
+    { model: "F-16 Fighting Falcon", fuel: "jet fuel", mpg: 0.42 },
+    { model: "Su-35", fuel: "jet fuel", mpg: 0.35 }
+  ]
 };
 
-// Fuel & Energy prices placeholder
+// Fuel & energy prices
 const fuelPrices = {
   "Wales": { petrol: 135, diesel: 143 },
   "Scotland": { petrol: 135, diesel: 144 },
@@ -209,7 +191,6 @@ const fuelPrices = {
   "West England": { petrol: 136, diesel: 144 },
   "London": { petrol: 138, diesel: 146 }
 };
-
 const energyPrices = {
   "Wales": 25.8,
   "Scotland": 26.0,
@@ -220,7 +201,7 @@ const energyPrices = {
   "London": 26.05
 };
 
-// Populate brands
+// Populate brands dropdown
 function populateBrands() {
   Object.keys(vehiclesData).forEach(brand => {
     const option = document.createElement('option');
@@ -251,12 +232,11 @@ brandSelect.addEventListener('change', () => {
 // Enable/disable calculate button
 modelSelect.addEventListener('change', checkButtonState);
 areaSelect.addEventListener('change', checkButtonState);
-
 function checkButtonState() {
   calculateBtn.disabled = !(brandSelect.value && modelSelect.value && areaSelect.value);
 }
 
-// Calculation (placeholder)
+// Calculation
 calculateBtn.addEventListener('click', () => {
   const brand = brandSelect.value;
   const model = modelSelect.value;
@@ -266,11 +246,10 @@ calculateBtn.addEventListener('click', () => {
   if (!vehicle) return;
 
   let costPerMile = 0;
-
   if (vehicle.fuel === 'petrol') costPerMile = (fuelPrices[area].petrol / 100) / vehicle.mpg;
   else if (vehicle.fuel === 'diesel') costPerMile = (fuelPrices[area].diesel / 100) / vehicle.mpg;
   else if (vehicle.fuel === 'electric') costPerMile = (energyPrices[area] / 100) * vehicle.kwh_per_mile;
-  else costPerMile = 10;
+  else costPerMile = 10; // fallback
 
   resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile.`;
 
@@ -284,424 +263,5 @@ calculateBtn.addEventListener('click', () => {
   }
 });
 </script>
-  
-// Full vehiclesData for 10 brands with mpg/kWh estimates
-const vehiclesData = {
-  "Ford": [
-    { model: "Fiesta", fuel: "petrol", mpg: 50 },
-    { model: "Focus", fuel: "petrol", mpg: 45 },
-    { model: "Kuga", fuel: "petrol", mpg: 38 },
-    { model: "Puma", fuel: "hybrid", mpg: 44 },
-    { model: "Mondeo", fuel: "diesel", mpg: 50 }
-  ],
-  "Toyota": [
-    { model: "Yaris", fuel: "petrol", mpg: 47 },
-    { model: "Auris", fuel: "hybrid", mpg: 56 },
-    { model: "Corolla", fuel: "hybrid", mpg: 55 },
-    { model: "Prius", fuel: "hybrid", mpg: 58 },
-    { model: "RAV4", fuel: "hybrid", mpg: 50 }
-  ],
-  "Volkswagen": [
-    { model: "Golf", fuel: "petrol", mpg: 45 },
-    { model: "Polo", fuel: "petrol", mpg: 47 },
-    { model: "Passat", fuel: "diesel", mpg: 52 },
-    { model: "Tiguan", fuel: "diesel", mpg: 44 },
-    { model: "ID.3", fuel: "electric", kwh_per_mile: 0.26 }
-  ],
-  "BMW": [
-    { model: "1 Series", fuel: "petrol", mpg: 41 },
-    { model: "3 Series", fuel: "diesel", mpg: 46 },
-    { model: "X1", fuel: "petrol", mpg: 40 },
-    { model: "X3", fuel: "diesel", mpg: 42 },
-    { model: "i3", fuel: "electric", kwh_per_mile: 0.27 }
-  ],
-  "Mercedes": [
-    { model: "A Class", fuel: "petrol", mpg: 40 },
-    { model: "C Class", fuel: "diesel", mpg: 45 },
-    { model: "E Class", fuel: "diesel", mpg: 47 },
-    { model: "GLC", fuel: "diesel", mpg: 42 },
-    { model: "EQC", fuel: "electric", kwh_per_mile: 0.32 }
-  ],
-  "Audi": [
-    { model: "A1", fuel: "petrol", mpg: 45 },
-    { model: "A3", fuel: "petrol", mpg: 42 },
-    { model: "A4", fuel: "diesel", mpg: 46 },
-    { model: "Q3", fuel: "petrol", mpg: 40 },
-    { model: "e‑tron", fuel: "electric", kwh_per_mile: 0.30 }
-  ],
-  "Honda": [
-    { model: "Civic", fuel: "petrol", mpg: 45 },
-    { model: "Jazz", fuel: "petrol", mpg: 47 },
-    { model: "CR‑V", fuel: "diesel", mpg: 41 },
-    { model: "HR‑V", fuel: "petrol", mpg: 42 },
-    { model: "e", fuel: "electric", kwh_per_mile: 0.29 }
-  ],
-  "Hyundai": [
-    { model: "i10", fuel: "petrol", mpg: 46 },
-    { model: "i20", fuel: "petrol", mpg: 44 },
-    { model: "i30", fuel: "petrol", mpg: 42 },
-    { model: "Kona Electric", fuel: "electric", kwh_per_mile: 0.28 },
-    { model: "Ioniq Hybrid", fuel: "hybrid", mpg: 54 }
-  ],
-  "Kia": [
-    { model: "Picanto", fuel: "petrol", mpg: 45 },
-    { model: "Rio", fuel: "petrol", mpg: 42 },
-    { model: "Ceed", fuel: "petrol", mpg: 41 },
-    { model: "Niro Hybrid", fuel: "hybrid", mpg: 53 },
-    { model: "EV6", fuel: "electric", kwh_per_mile: 0.29 }
-  ],
-  "Nissan": [
-    { model: "Micra", fuel: "petrol", mpg: 42 },
-    { model: "Note", fuel: "petrol", mpg: 45 },
-    { model: "Juke", fuel: "petrol", mpg: 41 },
-    { model: "Qashqai", fuel: "diesel", mpg: 43 },
-    { model: "Leaf", fuel: "electric", kwh_per_mile: 0.30 }
-  ],
-    "Peugeot": [
-    { model: "107", fuel: "petrol", mpg: 55 },
-    { model: "108", fuel: "petrol", mpg: 58 },
-    { model: "208", fuel: "petrol", mpg: 50 },
-    { model: "308", fuel: "diesel", mpg: 55 },
-    { model: "3008", fuel: "diesel", mpg: 48 }
-  ],
-
-  "Renault": [
-    { model: "Clio", fuel: "petrol", mpg: 52 },
-    { model: "Megane", fuel: "diesel", mpg: 50 },
-    { model: "Captur", fuel: "petrol", mpg: 48 },
-    { model: "Kadjar", fuel: "diesel", mpg: 46 },
-    { model: "Zoe", fuel: "electric", kwh_per_mile: 0.27 }
-  ],
-
-  "Vauxhall": [
-    { model: "Corsa", fuel: "petrol", mpg: 50 },
-    { model: "Astra", fuel: "diesel", mpg: 52 },
-    { model: "Insignia", fuel: "diesel", mpg: 48 },
-    { model: "Mokka", fuel: "petrol", mpg: 44 },
-    { model: "Corsa-e", fuel: "electric", kwh_per_mile: 0.28 }
-  ],
-
-  "Mazda": [
-    { model: "Mazda2", fuel: "petrol", mpg: 55 },
-    { model: "Mazda3", fuel: "petrol", mpg: 45 },
-    { model: "Mazda6", fuel: "diesel", mpg: 50 },
-    { model: "CX-3", fuel: "petrol", mpg: 44 },
-    { model: "CX-5", fuel: "diesel", mpg: 46 }
-  ],
-
-  "Skoda": [
-    { model: "Fabia", fuel: "petrol", mpg: 52 },
-    { model: "Octavia", fuel: "diesel", mpg: 55 },
-    { model: "Superb", fuel: "diesel", mpg: 48 },
-    { model: "Karoq", fuel: "petrol", mpg: 44 },
-    { model: "Enyaq", fuel: "electric", kwh_per_mile: 0.30 }
-  ],
-
-  "Seat": [
-    { model: "Ibiza", fuel: "petrol", mpg: 50 },
-    { model: "Leon", fuel: "petrol", mpg: 45 },
-    { model: "Arona", fuel: "petrol", mpg: 46 },
-    { model: "Ateca", fuel: "diesel", mpg: 44 },
-    { model: "Tarraco", fuel: "diesel", mpg: 42 }
-  ],
-
-  "Mini": [
-    { model: "Hatch", fuel: "petrol", mpg: 45 },
-    { model: "Clubman", fuel: "petrol", mpg: 42 },
-    { model: "Countryman", fuel: "petrol", mpg: 40 },
-    { model: "Convertible", fuel: "petrol", mpg: 38 },
-    { model: "Electric", fuel: "electric", kwh_per_mile: 0.29 }
-  ],
-
-  "Fiat": [
-    { model: "500", fuel: "petrol", mpg: 55 },
-    { model: "500X", fuel: "petrol", mpg: 42 },
-    { model: "Panda", fuel: "petrol", mpg: 50 },
-    { model: "Tipo", fuel: "diesel", mpg: 52 },
-    { model: "500e", fuel: "electric", kwh_per_mile: 0.27 }
-  ],
-
-  "Citroen": [
-    { model: "C1", fuel: "petrol", mpg: 55 },
-    { model: "C3", fuel: "petrol", mpg: 50 },
-    { model: "C4", fuel: "diesel", mpg: 48 },
-    { model: "C5 Aircross", fuel: "diesel", mpg: 46 },
-    { model: "e-C4", fuel: "electric", kwh_per_mile: 0.29 }
-  ],
-
-  "Volvo": [
-    { model: "V40", fuel: "diesel", mpg: 50 },
-    { model: "S60", fuel: "diesel", mpg: 48 },
-    { model: "V60", fuel: "diesel", mpg: 46 },
-    { model: "XC40", fuel: "petrol", mpg: 42 },
-    { model: "XC40 Recharge", fuel: "electric", kwh_per_mile: 0.31 }
-  ],
-
-  "Jaguar": [
-    { model: "XE", fuel: "diesel", mpg: 45 },
-    { model: "XF", fuel: "diesel", mpg: 42 },
-    { model: "XJ", fuel: "diesel", mpg: 38 },
-    { model: "F-Pace", fuel: "diesel", mpg: 40 },
-    { model: "I-Pace", fuel: "electric", kwh_per_mile: 0.33 }
-  ],
-
-  "Land Rover": [
-    { model: "Defender", fuel: "diesel", mpg: 32 },
-    { model: "Discovery", fuel: "diesel", mpg: 34 },
-    { model: "Discovery Sport", fuel: "diesel", mpg: 38 },
-    { model: "Range Rover Evoque", fuel: "diesel", mpg: 40 },
-    { model: "Range Rover Velar", fuel: "diesel", mpg: 36 }
-  ],
-
-  "Mitsubishi": [
-    { model: "Colt", fuel: "petrol", mpg: 48 },
-    { model: "Lancer", fuel: "petrol", mpg: 44 },
-    { model: "ASX", fuel: "petrol", mpg: 42 },
-    { model: "Outlander", fuel: "diesel", mpg: 45 },
-    { model: "Outlander PHEV", fuel: "hybrid", mpg: 55 }
-  ],
-
-  "Suzuki": [
-    { model: "Swift", fuel: "petrol", mpg: 55 },
-    { model: "Baleno", fuel: "petrol", mpg: 50 },
-    { model: "Vitara", fuel: "petrol", mpg: 46 },
-    { model: "SX4 S-Cross", fuel: "petrol", mpg: 45 },
-    { model: "Across", fuel: "hybrid", mpg: 50 }
-  ],
-
-  "Alfa Romeo": [
-    { model: "MiTo", fuel: "petrol", mpg: 45 },
-    { model: "Giulietta", fuel: "diesel", mpg: 50 },
-    { model: "Giulia", fuel: "diesel", mpg: 48 },
-    { model: "Stelvio", fuel: "diesel", mpg: 42 },
-    { model: "Tonale", fuel: "hybrid", mpg: 52 }
-  ],
-    "Dacia": [
-    { model: "Sandero", fuel: "petrol", mpg: 48 },
-    { model: "Sandero Stepway", fuel: "petrol", mpg: 46 },
-    { model: "Duster", fuel: "diesel", mpg: 42 },
-    { model: "Jogger", fuel: "hybrid", mpg: 50 },
-    { model: "Spring", fuel: "electric", kwh_per_mile: 0.27 }
-  ],
-
-  "Tesla": [
-    { model: "Model S", fuel: "electric", kwh_per_mile: 0.32 },
-    { model: "Model 3", fuel: "electric", kwh_per_mile: 0.26 },
-    { model: "Model X", fuel: "electric", kwh_per_mile: 0.36 },
-    { model: "Model Y", fuel: "electric", kwh_per_mile: 0.30 },
-    { model: "Cybertruck", fuel: "electric", kwh_per_mile: 0.40 }
-  ],
-
-  "Porsche": [
-    { model: "911", fuel: "petrol", mpg: 28 },
-    { model: "Boxster", fuel: "petrol", mpg: 30 },
-    { model: "Cayman", fuel: "petrol", mpg: 29 },
-    { model: "Cayenne", fuel: "petrol", mpg: 25 },
-    { model: "Taycan", fuel: "electric", kwh_per_mile: 0.34 }
-  ],
-
-  "Lexus": [
-    { model: "CT", fuel: "hybrid", mpg: 55 },
-    { model: "IS", fuel: "hybrid", mpg: 50 },
-    { model: "ES", fuel: "hybrid", mpg: 52 },
-    { model: "NX", fuel: "hybrid", mpg: 48 },
-    { model: "UX", fuel: "hybrid", mpg: 54 }
-  ],
-
-  "Subaru": [
-    { model: "Impreza", fuel: "petrol", mpg: 38 },
-    { model: "Legacy", fuel: "petrol", mpg: 36 },
-    { model: "Forester", fuel: "petrol", mpg: 34 },
-    { model: "Outback", fuel: "petrol", mpg: 35 },
-    { model: "BRZ", fuel: "petrol", mpg: 32 }
-  ],
-
-  "Smart": [
-    { model: "Fortwo Petrol", fuel: "petrol", mpg: 60 },
-    { model: "Forfour Petrol", fuel: "petrol", mpg: 55 },
-    { model: "EQ Fortwo", fuel: "electric", kwh_per_mile: 0.22 },
-    { model: "EQ Forfour", fuel: "electric", kwh_per_mile: 0.24 },
-    { model: "Roadster", fuel: "petrol", mpg: 45 }
-  ],
-
-  "Cupra": [
-    { model: "Formentor", fuel: "petrol", mpg: 38 },
-    { model: "Leon", fuel: "petrol", mpg: 40 },
-    { model: "Ateca", fuel: "petrol", mpg: 36 },
-    { model: "Born", fuel: "electric", kwh_per_mile: 0.28 },
-    { model: "Tavascan", fuel: "electric", kwh_per_mile: 0.31 }
-  ],
-
-  "MG": [
-    { model: "MG3", fuel: "petrol", mpg: 47 },
-    { model: "MG ZS", fuel: "electric", kwh_per_mile: 0.29 },
-    { model: "MG4", fuel: "electric", kwh_per_mile: 0.27 },
-    { model: "MG5", fuel: "electric", kwh_per_mile: 0.30 },
-    { model: "HS PHEV", fuel: "hybrid", mpg: 52 }
-  ],
-
-  "BYD": [
-    { model: "Atto 3", fuel: "electric", kwh_per_mile: 0.29 },
-    { model: "Dolphin", fuel: "electric", kwh_per_mile: 0.26 },
-    { model: "Seal", fuel: "electric", kwh_per_mile: 0.28 },
-    { model: "Han", fuel: "electric", kwh_per_mile: 0.31 },
-    { model: "Tang", fuel: "electric", kwh_per_mile: 0.33 }
-  ],
-
-  "Polestar": [
-    { model: "Polestar 1", fuel: "hybrid", mpg: 45 },
-    { model: "Polestar 2", fuel: "electric", kwh_per_mile: 0.30 },
-    { model: "Polestar 3", fuel: "electric", kwh_per_mile: 0.34 },
-    { model: "Polestar 4", fuel: "electric", kwh_per_mile: 0.33 },
-    { model: "Concept Coupe", fuel: "electric", kwh_per_mile: 0.32 }
-  ],
-
-  "Ferrari": [
-    { model: "458 Italia", fuel: "petrol", mpg: 18 },
-    { model: "488 GTB", fuel: "petrol", mpg: 20 },
-    { model: "F8 Tributo", fuel: "petrol", mpg: 19 },
-    { model: "Roma", fuel: "petrol", mpg: 22 },
-    { model: "SF90 Stradale", fuel: "hybrid", mpg: 25 }
-  ],
-
-  "Lamborghini": [
-    { model: "Gallardo", fuel: "petrol", mpg: 16 },
-    { model: "Huracan", fuel: "petrol", mpg: 18 },
-    { model: "Aventador", fuel: "petrol", mpg: 14 },
-    { model: "Urus", fuel: "petrol", mpg: 22 },
-    { model: "Revuelto", fuel: "hybrid", mpg: 20 }
-  ],
-
-  "Formula 1": [
-    { model: "Mercedes W14", fuel: "petrol", mpg: 3 },
-    { model: "Red Bull RB19", fuel: "petrol", mpg: 3 },
-    { model: "Ferrari SF-23", fuel: "petrol", mpg: 2.8 },
-    { model: "McLaren MCL60", fuel: "petrol", mpg: 2.9 },
-    { model: "Aston Martin AMR23", fuel: "petrol", mpg: 2.7 }
-  ],
-
-  "Airplanes": [
-    { model: "Boeing 737", fuel: "jet fuel", mpg: 0.2 },
-    { model: "Airbus A320", fuel: "jet fuel", mpg: 0.22 },
-    { model: "Boeing 747", fuel: "jet fuel", mpg: 0.15 },
-    { model: "Airbus A380", fuel: "jet fuel", mpg: 0.14 },
-    { model: "Cessna 172", fuel: "petrol", mpg: 8 }
-  ],
-
-  "Fighter Jets": [
-    { model: "F-22 Raptor", fuel: "jet fuel", mpg: 0.5 },
-    { model: "F-35 Lightning II", fuel: "jet fuel", mpg: 0.45 },
-    { model: "Eurofighter Typhoon", fuel: "jet fuel", mpg: 0.4 },
-    { model: "F-16 Fighting Falcon", fuel: "jet fuel", mpg: 0.42 },
-    { model: "Su-35", fuel: "jet fuel", mpg: 0.35 }
-  ]
-};
-
-<!-- Calculation Button and Result -->
-<button id="calculateBtn" disabled>Calculate £/mile</button>
-
-<div class="result" id="result"></div>
-<div class="total-cost" id="totalCost"></div>
-
-<script>
-// DOM elements
-const brandSelect = document.getElementById('brand');
-const modelSelect = document.getElementById('model');
-const areaSelect = document.getElementById('area');
-const calculateBtn = document.getElementById('calculateBtn');
-const resultDiv = document.getElementById('result');
-const totalDiv = document.getElementById('totalCost');
-
-// Example vehicle data placeholder
-const vehiclesData = {
-  // Vehicles data will be added here
-};
-
-// Fuel & energy prices
-const fuelPrices = {
-  "Wales": { petrol: 135, diesel: 143 },
-  "Scotland": { petrol: 135, diesel: 144 },
-  "North England": { petrol: 136, diesel: 145 },
-  "East England": { petrol: 137, diesel: 145 },
-  "South England": { petrol: 138, diesel: 146 },
-  "West England": { petrol: 136, diesel: 144 },
-  "London": { petrol: 138, diesel: 146 }
-};
-
-const energyPrices = {
-  "Wales": 25.8,
-  "Scotland": 26.0,
-  "North England": 25.0,
-  "East England": 26.0,
-  "South England": 26.9,
-  "West England": 26.0,
-  "London": 26.05
-};
-
-// Populate brands dropdown
-function populateBrands() {
-  Object.keys(vehiclesData).forEach(brand => {
-    const option = document.createElement('option');
-    option.value = brand;
-    option.textContent = brand;
-    brandSelect.appendChild(option);
-  });
-}
-populateBrands();
-
-// Populate models dropdown based on selected brand
-brandSelect.addEventListener('change', () => {
-  const brand = brandSelect.value;
-  modelSelect.innerHTML = '<option value="">--Select Model--</option>';
-  modelSelect.disabled = !brand;
-
-  if (brand && vehiclesData[brand]) {
-    vehiclesData[brand].forEach(vehicle => {
-      const option = document.createElement('option');
-      option.value = vehicle.model;
-      option.textContent = vehicle.model;
-      modelSelect.appendChild(option);
-    });
-  }
-  checkButtonState();
-});
-
-// Enable/disable calculate button
-modelSelect.addEventListener('change', checkButtonState);
-areaSelect.addEventListener('change', checkButtonState);
-
-function checkButtonState() {
-  calculateBtn.disabled = !(brandSelect.value && modelSelect.value && areaSelect.value);
-}
-
-// Calculation logic
-calculateBtn.addEventListener('click', () => {
-  const brand = brandSelect.value;
-  const model = modelSelect.value;
-  const area = areaSelect.value;
-  const vehicle = vehiclesData[brand]?.find(v => v.model === model);
-
-  if (!vehicle) return;
-
-  let costPerMile = 0;
-
-  // Correctly handle values <1 (e.g., planes, hybrids, electric)
-  if (vehicle.fuel === 'petrol') costPerMile = (fuelPrices[area].petrol / 100) / vehicle.mpg;
-  else if (vehicle.fuel === 'diesel') costPerMile = (fuelPrices[area].diesel / 100) / vehicle.mpg;
-  else if (vehicle.fuel === 'electric') costPerMile = (energyPrices[area] / 100) * vehicle.kwh_per_mile;
-  else costPerMile = 10; // fallback for unknown fuel types
-
-  // Show cost per mile first
-  resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile.`;
-
-  // Optional total miles
-  const milesInput = prompt("How many miles will you be traveling? (Optional)");
-  if (milesInput && !isNaN(milesInput)) {
-    const totalMiles = parseFloat(milesInput);
-    const totalCost = costPerMile * totalMiles;
-    totalDiv.innerText = `Total estimated cost for ${totalMiles} miles: £${totalCost.toFixed(2)}`;
-  } else {
-    totalDiv.innerText = '';
-  }
-});
-</script>
+</body>
+</html>
