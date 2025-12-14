@@ -7,9 +7,9 @@
 <style>
 /* Base body styling */
 body {
-  background-color: #303036;       /* Dark outer background */
+  background-color: #303036;
   font-family: 'League Spartan', sans-serif;
-  color: #30BCED;                  /* Main text color */
+  color: #30BCED;
   text-align: center;
   margin: 0;
   padding: 0;
@@ -17,7 +17,7 @@ body {
 
 /* Container box */
 .container {
-  background-color: #fffaff;       /* White info box */
+  background-color: #fffaff;
   padding: 40px 30px;
   max-width: 750px;
   margin: 50px auto;
@@ -108,7 +108,7 @@ button:disabled {
   margin-top: 25px;
   font-size: 1.5rem;
   font-weight: bold;
-  color: #fc5130;          /* Pounds per mile & total cost in orange */
+  color: #fc5130;
 }
 
 /* Responsive */
@@ -130,6 +130,7 @@ button:disabled {
     <a href="images.html">Vehicle Images</a>
   </nav>
 
+  <!-- Main Heading -->
   <h1>Pound Per Mile Calculator</h1>
 
   <!-- Instructions -->
@@ -163,171 +164,157 @@ button:disabled {
     </select>
   </div>
 
+  <!-- Calculate Button -->
   <button id="calculateBtn" disabled>Calculate £/mile</button>
 
+  <!-- Results -->
   <div class="result" id="result"></div>
   <div class="total-cost" id="totalCost"></div>
 
 </div>
 
 <script>
-// Embedded vehicles JSON
+// References to DOM elements
+const brandSelect = document.getElementById('brand');
+const modelSelect = document.getElementById('model');
+const areaSelect = document.getElementById('area');
+const calculateBtn = document.getElementById('calculateBtn');
+const resultDiv = document.getElementById('result');
+const totalDiv = document.getElementById('totalCost');
+
+// Example: placeholder brands (remove later and replace with actual vehicle library)
 const vehiclesData = {
-   ],
+ const vehiclesData = {
   "Ford": [
-    { "model": "Fiesta", "fuel": "petrol", "mpg": 50 },
-    { "model": "Focus", "fuel": "diesel", "mpg": 60 },
-    { "model": "Puma", "fuel": "petrol", "mpg": 47 },
-    { "model": "Kuga", "fuel": "hybrid", "mpg": 42 },
-    { "model": "Mondeo", "fuel": "diesel", "mpg": 55 },
-    { "model": "EcoSport", "fuel": "petrol", "mpg": 45 },
-    { "model": "Transit", "fuel": "diesel", "mpg": 30 },
-    { "model": "Tourneo", "fuel": "diesel", "mpg": 32 },
-    { "model": "Mustang", "fuel": "petrol", "mpg": 28 },
-    { "model": "Edge", "fuel": "petrol", "mpg": 33 },
-    { "model": "Galaxy", "fuel": "diesel", "mpg": 40 },
-    { "model": "S‑Max", "fuel": "diesel", "mpg": 42 },
-    { "model": "C‑Max", "fuel": "petrol", "mpg": 44 },
-    { "model": "B‑Max", "fuel": "petrol", "mpg": 46 },
-    { "model": "Ranger", "fuel": "diesel", "mpg": 35 },
-    { "model": "Bronco", "fuel": "petrol", "mpg": 26 },
-    { "model": "GT", "fuel": "petrol", "mpg": 25 },
-    { "model": "Transit Connect", "fuel": "diesel", "mpg": 38 },
-    { "model": "Tourneo Connect", "fuel": "diesel", "mpg": 36 },
-    { "model": "Electrified Kuga", "fuel": "hybrid", "mpg": 47 }
+    {"model":"Fiesta","fuel":"petrol","mpg":47},
+    {"model":"Fiesta ST","fuel":"petrol","mpg":35},
+    {"model":"Focus","fuel":"petrol","mpg":40},
+    {"model":"Focus ST","fuel":"petrol","mpg":30},
+    {"model":"Kuga","fuel":"petrol","mpg":33},
+    {"model":"Puma","fuel":"hybrid","mpg":45},
+    {"model":"Mondeo","fuel":"diesel","mpg":50},
+    {"model":"EcoSport","fuel":"petrol","mpg":42},
+    {"model":"Tourneo Connect","fuel":"diesel","mpg":38},
+    {"model":"Transit Custom","fuel":"diesel","mpg":33}
   ],
+
   "Volkswagen": [
-    { "model": "Golf", "fuel": "petrol", "mpg": 47 },
-    { "model": "Polo", "fuel": "petrol", "mpg": 50 },
-    { "model": "Tiguan", "fuel": "diesel", "mpg": 44 },
-    { "model": "Passat", "fuel": "diesel", "mpg": 52 },
-    { "model": "Up!", "fuel": "petrol", "mpg": 55 },
-    { "model": "Arteon", "fuel": "petrol", "mpg": 38 },
-    { "model": "Touran", "fuel": "diesel", "mpg": 48 },
-    { "model": "Sharan", "fuel": "diesel", "mpg": 45 },
-    { "model": "T‑Roc", "fuel": "petrol", "mpg": 42 },
-    { "model": "T‑Cross", "fuel": "petrol", "mpg": 44 },
-    { "model": "ID.3", "fuel": "electric", "kwh_per_mile": 0.30 },
-    { "model": "ID.4", "fuel": "electric", "kwh_per_mile": 0.31 },
-    { "model": "ID. Buzz", "fuel": "electric", "kwh_per_mile": 0.33 },
-    { "model": "Amarok", "fuel": "diesel", "mpg": 36 },
-    { "model": "Caddy", "fuel": "diesel", "mpg": 42 },
-    { "model": "e‑Golf", "fuel": "electric", "kwh_per_mile": 0.29 },
-    { "model": "Golf Estate", "fuel": "diesel", "mpg": 50 },
-    { "model": "Passat Estate", "fuel": "diesel", "mpg": 49 },
-    { "model": "CC", "fuel": "petrol", "mpg": 39 },
-    { "model": "Scirocco", "fuel": "petrol", "mpg": 35 }
+    {"model":"Golf","fuel":"petrol","mpg":44},
+    {"model":"Polo","fuel":"petrol","mpg":47},
+    {"model":"Tiguan","fuel":"diesel","mpg":41},
+    {"model":"Passat","fuel":"diesel","mpg":49},
+    {"model":"Touran","fuel":"diesel","mpg":44},
+    {"model":"Up","fuel":"petrol","mpg":50},
+    {"model":"Arteon","fuel":"petrol","mpg":39},
+    {"model":"ID.3","fuel":"electric","kwh_per_mile":0.25},
+    {"model":"ID.4","fuel":"electric","kwh_per_mile":0.27},
+    {"model":"T‑Roc","fuel":"petrol","mpg":42}
   ],
-  "BMW": [
-    { "model": "3 Series", "fuel": "petrol", "mpg": 42 },
-    { "model": "5 Series", "fuel": "diesel", "mpg": 50 },
-    { "model": "1 Series", "fuel": "petrol", "mpg": 40 },
-    { "model": "2 Series", "fuel": "petrol", "mpg": 38 },
-    { "model": "X1", "fuel": "petrol", "mpg": 37 },
-    { "model": "X3", "fuel": "diesel", "mpg": 45 },
-    { "model": "X5", "fuel": "diesel", "mpg": 35 },
-    { "model": "i3", "fuel": "electric", "kwh_per_mile": 0.28 },
-    { "model": "i4", "fuel": "electric", "kwh_per_mile": 0.30 },
-    { "model": "iX", "fuel": "electric", "kwh_per_mile": 0.34 },
-    { "model": "M3", "fuel": "petrol", "mpg": 28 },
-    { "model": "M4", "fuel": "petrol", "mpg": 27 },
-    { "model": "Z4", "fuel": "petrol", "mpg": 30 },
-    { "model": "X2", "fuel": "petrol", "mpg": 36 },
-    { "model": "X4", "fuel": "diesel", "mpg": 40 },
-    { "model": "X6", "fuel": "petrol", "mpg": 34 },
-    { "model": "4 Series", "fuel": "petrol", "mpg": 39 },
-    { "model": "6 Series", "fuel": "diesel", "mpg": 44 },
-    { "model": "7 Series", "fuel": "petrol", "mpg": 32 },
-    { "model": "M5", "fuel": "petrol", "mpg": 24 }
-  ],
-  "Audi": [
-    { "model": "A1", "fuel": "petrol", "mpg": 48 },
-    { "model": "A3", "fuel": "petrol", "mpg": 42 },
-    { "model": "A4", "fuel": "diesel", "mpg": 50 },
-    { "model": "A6", "fuel": "diesel", "mpg": 47 },
-    { "model": "Q2", "fuel": "petrol", "mpg": 44 },
-    { "model": "Q3", "fuel": "petrol", "mpg": 42 },
-    { "model": "Q5", "fuel": "diesel", "mpg": 38 },
-    { "model": "Q7", "fuel": "diesel", "mpg": 36 },
-    { "model": "e‑tron", "fuel": "electric", "kwh_per_mile": 0.34 },
-    { "model": "e‑tron GT", "fuel": "electric", "kwh_per_mile": 0.32 },
-    { "model": "S3", "fuel": "petrol", "mpg": 37 },
-    { "model": "S4", "fuel": "petrol", "mpg": 35 },
-    { "model": "RS3", "fuel": "petrol", "mpg": 30 },
-    { "model": "RS Q8", "fuel": "petrol", "mpg": 27 },
-    { "model": "A5", "fuel": "petrol", "mpg": 40 },
-    { "model": "A7", "fuel": "diesel", "mpg": 41 },
-    { "model": "A8", "fuel": "diesel", "mpg": 43 },
-    { "model": "Q8", "fuel": "diesel", "mpg": 35 },
-    { "model": "S5", "fuel": "petrol", "mpg": 33 },
-    { "model": "TT", "fuel": "petrol", "mpg": 37 }
-  ],
+
   "Toyota": [
-    { "model": "Yaris", "fuel": "hybrid", "mpg": 58 },
-    { "model": "Corolla", "fuel": "hybrid", "mpg": 55 },
-    { "model": "RAV4", "fuel": "hybrid", "mpg": 47 },
-    { "model": "C‑HR", "fuel": "hybrid", "mpg": 50 },
-    { "model": "Auris", "fuel": "petrol", "mpg": 48 },
-    { "model": "Avensis", "fuel": "diesel", "mpg": 52 },
-    { "model": "Prius", "fuel": "hybrid", "mpg": 56 },
-    { "model": "Hilux", "fuel": "diesel", "mpg": 34 },
-    { "model": "Urban Cruiser", "fuel": "petrol", "mpg": 45 },
-    { "model": "Verso", "fuel": "diesel", "mpg": 49 },
-    { "model": "Supra", "fuel": "petrol", "mpg": 30 },
-    { "model": "Aygo", "fuel": "petrol", "mpg": 58 },
-    { "model": "Proace", "fuel": "diesel", "mpg": 40 },
-    { "model": "Proace Verso", "fuel": "diesel", "mpg": 38 },
-    { "model": "Land Cruiser", "fuel": "diesel", "mpg": 31 },
-    { "model": "Yaris Cross", "fuel": "hybrid", "mpg": 52 },
-    { "model": "Camry", "fuel": "hybrid", "mpg": 48 },
-    { "model": "GT86", "fuel": "petrol", "mpg": 33 },
-    { "model": "RAV4 Plug‑in", "fuel": "hybrid", "mpg": 72 },
-    { "model": "Corolla Touring", "fuel": "hybrid", "mpg": 54 }
+    {"model":"Yaris","fuel":"petrol","mpg":45},
+    {"model":"Auris","fuel":"hybrid","mpg":56},
+    {"model":"Corolla","fuel":"hybrid","mpg":55},
+    {"model":"Prius","fuel":"hybrid","mpg":58},
+    {"model":"C‑HR","fuel":"hybrid","mpg":54},
+    {"model":"RAV4","fuel":"hybrid","mpg":50},
+    {"model":"Avensis","fuel":"diesel","mpg":47},
+    {"model":"Aygo","fuel":"petrol","mpg":48},
+    {"model":"Hilux","fuel":"diesel","mpg":32},
+    {"model":"GR Yaris","fuel":"petrol","mpg":35}
   ],
+
   "Nissan": [
-    { "model": "Qashqai", "fuel": "hybrid", "mpg": 44 },
-    { "model": "Juke", "fuel": "petrol", "mpg": 46 },
-    { "model": "Leaf", "fuel": "electric", "kwh_per_mile": 0.32 },
-    { "model": "Micra", "fuel": "petrol", "mpg": 50 },
-    { "model": "X‑Trail", "fuel": "diesel", "mpg": 42 },
-    { "model": "Note", "fuel": "petrol", "mpg": 48 },
-    { "model": "Primera", "fuel": "diesel", "mpg": 47 },
-    { "model": "Almera", "fuel": "petrol", "mpg": 49 },
-    { "model": "NV200", "fuel": "diesel", "mpg": 40 },
-    { "model": "Evalia", "fuel": "diesel", "mpg": 39 },
-    { "model": "GT‑R", "fuel": "petrol", "mpg": 23 },
-    { "model": "350Z", "fuel": "petrol", "mpg": 26 },
-    { "model": "370Z", "fuel": "petrol", "mpg": 24 },
-    { "model": "Terrano", "fuel": "diesel", "mpg": 36 },
-    { "model": "Patrol", "fuel": "petrol", "mpg": 22 },
-    { "model": "Pulsar", "fuel": "petrol", "mpg": 45 },
-    { "model": "Serena", "fuel": "petrol", "mpg": 41 },
-    { "model": "Navara", "fuel": "diesel", "mpg": 34 },
-    { "model": "Urvan", "fuel": "diesel", "mpg": 33 },
-    { "model": "Rogue", "fuel": "petrol", "mpg": 27 }
+    {"model":"Micra","fuel":"petrol","mpg":42},
+    {"model":"Note","fuel":"petrol","mpg":45},
+    {"model":"Juke","fuel":"petrol","mpg":41},
+    {"model":"Qashqai","fuel":"petrol","mpg":43},
+    {"model":"X‑Trail","fuel":"diesel","mpg":38},
+    {"model":"Leaf","fuel":"electric","kwh_per_mile":0.29},
+    {"model":"NV200","fuel":"diesel","mpg":38},
+    {"model":"GT‑R","fuel":"petrol","mpg":22},
+    {"model":"Almera","fuel":"petrol","mpg":44},
+    {"model":"350Z","fuel":"petrol","mpg":20}
   ],
+
+  "BMW": [
+    {"model":"1 Series","fuel":"petrol","mpg":41},
+    {"model":"3 Series","fuel":"diesel","mpg":47},
+    {"model":"5 Series","fuel":"diesel","mpg":48},
+    {"model":"X1","fuel":"petrol","mpg":40},
+    {"model":"X3","fuel":"diesel","mpg":45},
+    {"model":"X5","fuel":"diesel","mpg":36},
+    {"model":"i3","fuel":"electric","kwh_per_mile":0.27},
+    {"model":"i4","fuel":"electric","kwh_per_mile":0.28},
+    {"model":"7 Series","fuel":"petrol","mpg":30},
+    {"model":"M3","fuel":"petrol","mpg":25}
+  ],
+
+  "Mercedes‑Benz": [
+    {"model":"A‑Class","fuel":"petrol","mpg":40},
+    {"model":"C‑Class","fuel":"diesel","mpg":45},
+    {"model":"E‑Class","fuel":"diesel","mpg":47},
+    {"model":"S‑Class","fuel":"petrol","mpg":30},
+    {"model":"GLA","fuel":"petrol","mpg":38},
+    {"model":"GLC","fuel":"diesel","mpg":42},
+    {"model":"GLE","fuel":"diesel","mpg":36},
+    {"model":"EQC","fuel":"electric","kwh_per_mile":0.32},
+    {"model":"CLA","fuel":"petrol","mpg":39},
+    {"model":"SL","fuel":"petrol","mpg":28}
+  ],
+
+  "Audi": [
+    {"model":"A1","fuel":"petrol","mpg":45},
+    {"model":"A3","fuel":"petrol","mpg":42},
+    {"model":"A4","fuel":"diesel","mpg":46},
+    {"model":"A6","fuel":"diesel","mpg":47},
+    {"model":"Q2","fuel":"petrol","mpg":39},
+    {"model":"Q3","fuel":"petrol","mpg":40},
+    {"model":"Q5","fuel":"diesel","mpg":44},
+    {"model":"e‑tron","fuel":"electric","kwh_per_mile":0.30},
+    {"model":"TT","fuel":"petrol","mpg":36},
+    {"model":"RS3","fuel":"petrol","mpg":30}
+  ],
+
+  "Kia": [
+    {"model":"Picanto","fuel":"petrol","mpg":45},
+    {"model":"Rio","fuel":"petrol","mpg":42},
+    {"model":"Ceed","fuel":"petrol","mpg":41},
+    {"model":"Sportage","fuel":"petrol","mpg":38},
+    {"model":"Sorento","fuel":"diesel","mpg":35},
+    {"model":"Niro","fuel":"hybrid","mpg":54},
+    {"model":"EV6","fuel":"electric","kwh_per_mile":0.29},
+    {"model":"Stonic","fuel":"petrol","mpg":40},
+    {"model":"XCeed","fuel":"petrol","mpg":40},
+    {"model":"Soul EV","fuel":"electric","kwh_per_mile":0.31}
+  ],
+
+  "Hyundai": [
+    {"model":"i10","fuel":"petrol","mpg":46},
+    {"model":"i20","fuel":"petrol","mpg":44},
+    {"model":"i30","fuel":"petrol","mpg":42},
+    {"model":"Tucson","fuel":"diesel","mpg":38},
+    {"model":"Kona","fuel":"electric","kwh_per_mile":0.28},
+    {"model":"Ioniq 5","fuel":"electric","kwh_per_mile":0.27},
+    {"model":"Santa Fe","fuel":"diesel","mpg":36},
+    {"model":"Bayon","fuel":"petrol","mpg":42},
+    {"model":"Nexo","fuel":"hydrogen","mpg":60},
+    {"model":"Palisade","fuel":"petrol","mpg":27}
+  ],
+
   "Vauxhall": [
-    { "model": "Corsa", "fuel": "petrol", "mpg": 47 },
-    { "model": "Astra", "fuel": "diesel", "mpg": 48 },
-    { "model": "Mokka", "fuel": "electric", "kwh_per_mile": 0.33 },
-    { "model": "Insignia", "fuel": "diesel", "mpg": 50 },
-    { "model": "Grandland X", "fuel": "petrol", "mpg": 44 },
-    { "model": "Crossland X", "fuel": "petrol", "mpg": 46 },
-    { "model": "Combo", "fuel": "diesel", "mpg": 38 },
-    { "model": "Vivaro", "fuel": "diesel", "mpg": 35 },
-    { "model": "Zafira", "fuel": "petrol", "mpg": 42 },
-    { "model": "Monaro", "fuel": "petrol", "mpg": 29 },
-    { "model": "Vectra", "fuel": "diesel", "mpg": 43 },
-    { "model": "Meriva", "fuel": "petrol", "mpg": 45 },
-    { "model": "Tigra", "fuel": "petrol", "mpg": 47 },
-    { "model": "Calibra", "fuel": "petrol", "mpg": 38 },
-    { "model": "Manta", "fuel": "petrol", "mpg": 32 },
-    { "model": "Senator", "fuel": "diesel", "mpg": 37 },
-    { "model": "Omega", "fuel": "diesel", "mpg": 39 },
-    { "model": "Frontera", "fuel": "petrol", "mpg": 35 },
-    { "model": "Ampera", "fuel": "electric", "kwh_per_mile": 0.28 },
-    { "model": "GT", "fuel": "petrol", "mpg": 30 }
-  ],
+    {"model":"Corsa","fuel":"petrol","mpg":47},
+    {"model":"Astra","fuel":"petrol","mpg":46},
+    {"model":"Insignia","fuel":"diesel","mpg":47},
+    {"model":"Grandland","fuel":"petrol","mpg":39},
+    {"model":"Mokka","fuel":"petrol","mpg":41},
+    {"model":"Zafira","fuel":"diesel","mpg":42},
+    {"model":"Combo","fuel":"diesel","mpg":38},
+    {"model":"Vivaro","fuel":"diesel","mpg":36},
+    {"model":"Crossland","fuel":"petrol","mpg":40},
+    {"model":"Corsa‑e","fuel":"electric","kwh_per_mile":0.26}
+  ]
+     ],
   "Mercedes-Benz": [
     { "model": "A Class", "fuel": "petrol", "mpg": 45 },
     { "model": "B Class", "fuel": "petrol", "mpg": 42 },
@@ -997,9 +984,7 @@ const vehiclesData = {
     { "model": "Urus Performante", "fuel": "petrol", "mpg": 17 },
     { "model": "Aventador SVJ", "fuel": "petrol", "mpg": 12 },
     { "model": "Huracan STO", "fuel": "petrol", "mpg": 13 }
-  ]
-}
-{
+  ],
   "Dacia": [
     { "model": "Sandero", "fuel": "petrol", "mpg": 48 },
     { "model": "Sandero Stepway", "fuel": "petrol", "mpg": 46 },
@@ -1065,50 +1050,19 @@ const vehiclesData = {
     { "model": "Mirage 2000", "fuel": "jet fuel", "mpg": 0.34 },
     { "model": "F-4 Phantom II", "fuel": "jet fuel", "mpg": 0.31 },
     { "model": "Su-34", "fuel": "jet fuel", "mpg": 0.33 }
-  ] 
+  ]
+   
 };
 
-// Fuel & Energy prices per area
-const fuelPrices = {
-  "Wales": { petrol: 135, diesel: 143 },
-  "Scotland": { petrol: 135, diesel: 144 },
-  "North England": { petrol: 136, diesel: 145 },
-  "East England": { petrol: 137, diesel: 145 },
-  "South England": { petrol: 138, diesel: 146 },
-  "West England": { petrol: 136, diesel: 144 },
-  "London": { petrol: 138, diesel: 146 }
-};
+// Populate brands dropdown
+Object.keys(vehiclesData).forEach(brand => {
+  const option = document.createElement('option');
+  option.value = brand;
+  option.textContent = brand;
+  brandSelect.appendChild(option);
+});
 
-const energyPrices = {
-  "Wales": 25.8,
-  "Scotland": 26.0,
-  "North England": 25.0,
-  "East England": 26.0,
-  "South England": 26.9,
-  "West England": 26.0,
-  "London": 26.05
-};
-
-// DOM elements
-const brandSelect = document.getElementById('brand');
-const modelSelect = document.getElementById('model');
-const areaSelect = document.getElementById('area');
-const calculateBtn = document.getElementById('calculateBtn');
-const resultDiv = document.getElementById('result');
-const totalDiv = document.getElementById('totalCost');
-
-// Populate brands
-function populateBrands() {
-  Object.keys(vehiclesData).forEach(brand => {
-    const option = document.createElement('option');
-    option.value = brand;
-    option.textContent = brand;
-    brandSelect.appendChild(option);
-  });
-}
-populateBrands();
-
-// Update models dropdown
+// Enable models dropdown when brand is selected
 brandSelect.addEventListener('change', () => {
   const brand = brandSelect.value;
   modelSelect.innerHTML = '<option value="">--Select Model--</option>';
@@ -1133,29 +1087,17 @@ function checkButtonState() {
   calculateBtn.disabled = !(brandSelect.value && modelSelect.value && areaSelect.value);
 }
 
-// Calculate cost
+// Placeholder calculate function
 calculateBtn.addEventListener('click', () => {
   const brand = brandSelect.value;
   const model = modelSelect.value;
   const area = areaSelect.value;
-  const vehicle = vehiclesData[brand].find(v => v.model === model);
-
-  if (!vehicle) return;
-
-  let costPerMile = 0;
-
-  if (vehicle.fuel === 'petrol') costPerMile = (fuelPrices[area].petrol / 100) / vehicle.mpg;
-  else if (vehicle.fuel === 'diesel') costPerMile = (fuelPrices[area].diesel / 100) / vehicle.mpg;
-  else if (vehicle.fuel === 'electric') costPerMile = (energyPrices[area] / 100) * vehicle.kwh_per_mile;
-  else costPerMile = 10; // fallback for unknown
-
-  resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile.`;
-
+  
+  resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £X.XX per mile.`;
   const milesInput = prompt("How many miles will you be traveling?");
   if (milesInput && !isNaN(milesInput)) {
     const totalMiles = parseFloat(milesInput);
-    const totalCost = costPerMile * totalMiles;
-    totalDiv.innerText = `Total estimated cost for ${totalMiles} miles: £${totalCost.toFixed(2)}`;
+    totalDiv.innerText = `Total estimated cost for ${totalMiles} miles: £XX.XX`;
   } else {
     totalDiv.innerText = '';
   }
