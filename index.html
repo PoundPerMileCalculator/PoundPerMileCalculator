@@ -165,12 +165,205 @@ const totalDiv = document.getElementById('totalCost');
 
 // Vehicle data
 const vehiclesData = {
+const vehiclesData = {
   "Ford": [
     { model: "Fiesta", fuel: "petrol", mpg: 50 },
     { model: "Focus", fuel: "petrol", mpg: 45 },
-    { model: "Kuga", fuel: "petrol", mpg: 38 },
+    { model: "Kuga", fuel: "diesel", mpg: 38 },
     { model: "Puma", fuel: "hybrid", mpg: 44 },
-    { model: "Mondeo", fuel: "diesel", mpg: 50 }
+    { model: "Mondeo", fuel: "diesel", mpg: 50 },
+    { model: "Mustang", fuel: "petrol", mpg: 25 },
+    { model: "Explorer", fuel: "petrol", mpg: 22 }
+  ],
+  "Toyota": [
+    { model: "Corolla", fuel: "petrol", mpg: 52 },
+    { model: "Camry", fuel: "hybrid", mpg: 50 },
+    { model: "Prius", fuel: "hybrid", mpg: 56 },
+    { model: "RAV4", fuel: "petrol", mpg: 40 },
+    { model: "Hilux", fuel: "diesel", mpg: 32 },
+    { model: "Yaris", fuel: "petrol", mpg: 55 },
+    { model: "Highlander", fuel: "hybrid", mpg: 36 }
+  ],
+  "BMW": [
+    { model: "3 Series", fuel: "petrol", mpg: 42 },
+    { model: "5 Series", fuel: "diesel", mpg: 38 },
+    { model: "X3", fuel: "diesel", mpg: 35 },
+    { model: "X5", fuel: "petrol", mpg: 28 },
+    { model: "i3", fuel: "electric", kwh_per_mile: 0.33 },
+    { model: "i4", fuel: "electric", kwh_per_mile: 0.31 },
+    { model: "Z4", fuel: "petrol", mpg: 27 }
+  ],
+  "Mercedes": [
+    { model: "A-Class", fuel: "petrol", mpg: 45 },
+    { model: "C-Class", fuel: "diesel", mpg: 38 },
+    { model: "E-Class", fuel: "diesel", mpg: 36 },
+    { model: "S-Class", fuel: "petrol", mpg: 25 },
+    { model: "GLE", fuel: "diesel", mpg: 32 },
+    { model: "EQC", fuel: "electric", kwh_per_mile: 0.34 },
+    { model: "GLA", fuel: "petrol", mpg: 40 }
+  ],
+  "Audi": [
+    { model: "A1", fuel: "petrol", mpg: 48 },
+    { model: "A3", fuel: "diesel", mpg: 42 },
+    { model: "A4", fuel: "diesel", mpg: 38 },
+    { model: "A6", fuel: "diesel", mpg: 35 },
+    { model: "Q3", fuel: "petrol", mpg: 36 },
+    { model: "Q5", fuel: "diesel", mpg: 33 },
+    { model: "e-tron", fuel: "electric", kwh_per_mile: 0.32 }
+  ],
+  "Volkswagen": [
+    { model: "Golf", fuel: "petrol", mpg: 45 },
+    { model: "Polo", fuel: "petrol", mpg: 50 },
+    { model: "Passat", fuel: "diesel", mpg: 40 },
+    { model: "Tiguan", fuel: "diesel", mpg: 37 },
+    { model: "Arteon", fuel: "petrol", mpg: 34 },
+    { model: "ID.3", fuel: "electric", kwh_per_mile: 0.30 },
+    { model: "ID.4", fuel: "electric", kwh_per_mile: 0.31 }
+  ],
+  "Honda": [
+    { model: "Civic", fuel: "petrol", mpg: 48 },
+    { model: "Accord", fuel: "hybrid", mpg: 50 },
+    { model: "Jazz", fuel: "petrol", mpg: 55 },
+    { model: "CR-V", fuel: "diesel", mpg: 35 },
+    { model: "HR-V", fuel: "petrol", mpg: 40 },
+    { model: "e", fuel: "electric", kwh_per_mile: 0.32 },
+    { model: "Insight", fuel: "hybrid", mpg: 52 }
+  ],
+  "Nissan": [
+    { model: "Micra", fuel: "petrol", mpg: 50 },
+    { model: "Qashqai", fuel: "diesel", mpg: 36 },
+    { model: "Leaf", fuel: "electric", kwh_per_mile: 0.28 },
+    { model: "Juke", fuel: "petrol", mpg: 42 },
+    { model: "X-Trail", fuel: "diesel", mpg: 34 },
+    { model: "Note", fuel: "petrol", mpg: 48 },
+    { model: "Ariya", fuel: "electric", kwh_per_mile: 0.30 }
+  ],
+  "Tesla": [
+    { model: "Model 3", fuel: "electric", kwh_per_mile: 0.29 },
+    { model: "Model S", fuel: "electric", kwh_per_mile: 0.32 },
+    { model: "Model X", fuel: "electric", kwh_per_mile: 0.34 },
+    { model: "Model Y", fuel: "electric", kwh_per_mile: 0.31 },
+    { model: "Cybertruck", fuel: "electric", kwh_per_mile: 0.35 },
+    { model: "Roadster", fuel: "electric", kwh_per_mile: 0.30 },
+    { model: "Semi", fuel: "electric", kwh_per_mile: 0.36 }
+  ],
+  "Kia": [
+    { model: "Picanto", fuel: "petrol", mpg: 52 },
+    { model: "Rio", fuel: "petrol", mpg: 48 },
+    { model: "Ceed", fuel: "diesel", mpg: 42 },
+    { model: "Sportage", fuel: "diesel", mpg: 36 },
+    { model: "Sorento", fuel: "hybrid", mpg: 32 },
+    { model: "Niro", fuel: "hybrid", mpg: 48 },
+    { model: "EV6", fuel: "electric", kwh_per_mile: 0.31 }
+  ],
+  "Chevrolet": [
+    { model: "Spark", fuel: "petrol", mpg: 43 },
+    { model: "Malibu", fuel: "petrol", mpg: 32 },
+    { model: "Cruze", fuel: "diesel", mpg: 38 },
+    { model: "Equinox", fuel: "petrol", mpg: 28 },
+    { model: "Traverse", fuel: "petrol", mpg: 24 },
+    { model: "Bolt EV", fuel: "electric", kwh_per_mile: 0.30 },
+    { model: "Camaro", fuel: "petrol", mpg: 22 },
+    { model: "Silverado", fuel: "diesel", mpg: 20 }
+  ],
+  "Mazda": [
+    { model: "2", fuel: "petrol", mpg: 47 },
+    { model: "3", fuel: "petrol", mpg: 42 },
+    { model: "6", fuel: "diesel", mpg: 36 },
+    { model: "CX-3", fuel: "petrol", mpg: 38 },
+    { model: "CX-30", fuel: "petrol", mpg: 36 },
+    { model: "CX-5", fuel: "diesel", mpg: 33 },
+    { model: "MX-5", fuel: "petrol", mpg: 34 },
+    { model: "CX-50", fuel: "petrol", mpg: 31 }
+  ],
+  "Subaru": [
+    { model: "Impreza", fuel: "petrol", mpg: 36 },
+    { model: "Legacy", fuel: "petrol", mpg: 32 },
+    { model: "Outback", fuel: "diesel", mpg: 28 },
+    { model: "Forester", fuel: "petrol", mpg: 30 },
+    { model: "XV", fuel: "hybrid", mpg: 38 },
+    { model: "BRZ", fuel: "petrol", mpg: 26 },
+    { model: "WRX", fuel: "petrol", mpg: 24 },
+    { model: "Ascent", fuel: "petrol", mpg: 27 }
+  ],
+  "Volvo": [
+    { model: "S60", fuel: "petrol", mpg: 38 },
+    { model: "S90", fuel: "diesel", mpg: 33 },
+    { model: "V60", fuel: "hybrid", mpg: 45 },
+    { model: "V90", fuel: "diesel", mpg: 32 },
+    { model: "XC40", fuel: "electric", kwh_per_mile: 0.32 },
+    { model: "XC60", fuel: "petrol", mpg: 28 },
+    { model: "XC90", fuel: "hybrid", mpg: 35 },
+    { model: "C40 Recharge", fuel: "electric", kwh_per_mile: 0.33 }
+  ],
+  "Jaguar": [
+    { model: "XE", fuel: "petrol", mpg: 34 },
+    { model: "XF", fuel: "diesel", mpg: 30 },
+    { model: "XJ", fuel: "petrol", mpg: 26 },
+    { model: "F-Pace", fuel: "diesel", mpg: 28 },
+    { model: "E-Pace", fuel: "petrol", mpg: 32 },
+    { model: "I-Pace", fuel: "electric", kwh_per_mile: 0.31 },
+    { model: "F-Type", fuel: "petrol", mpg: 22 },
+    { model: "XE PHEV", fuel: "hybrid", mpg: 45 }
+  ],
+  "Porsche": [
+    { model: "911", fuel: "petrol", mpg: 22 },
+    { model: "Cayman", fuel: "petrol", mpg: 24 },
+    { model: "Boxster", fuel: "petrol", mpg: 25 },
+    { model: "Panamera", fuel: "hybrid", mpg: 32 },
+    { model: "Taycan", fuel: "electric", kwh_per_mile: 0.33 },
+    { model: "Macan", fuel: "petrol", mpg: 26 },
+    { model: "Cayenne", fuel: "diesel", mpg: 28 },
+    { model: "718 Spyder", fuel: "petrol", mpg: 23 }
+  ],
+  "Hyundai": [
+    { model: "i10", fuel: "petrol", mpg: 50 },
+    { model: "i20", fuel: "petrol", mpg: 47 },
+    { model: "i30", fuel: "diesel", mpg: 42 },
+    { model: "Tucson", fuel: "diesel", mpg: 36 },
+    { model: "Kona EV", fuel: "electric", kwh_per_mile: 0.31 },
+    { model: "Santa Fe", fuel: "petrol", mpg: 28 },
+    { model: "Ioniq Hybrid", fuel: "hybrid", mpg: 55 },
+    { model: "Ioniq 5", fuel: "electric", kwh_per_mile: 0.30 }
+  ],
+  "Mercedes-Benz": [
+    { model: "GLA", fuel: "petrol", mpg: 40 },
+    { model: "GLB", fuel: "diesel", mpg: 35 },
+    { model: "GLC", fuel: "diesel", mpg: 32 },
+    { model: "GLE", fuel: "hybrid", mpg: 36 },
+    { model: "CLS", fuel: "petrol", mpg: 30 },
+    { model: "EQB", fuel: "electric", kwh_per_mile: 0.33 },
+    { model: "EQA", fuel: "electric", kwh_per_mile: 0.32 },
+    { model: "S-Class", fuel: "petrol", mpg: 25 }
+  ],
+  "Lexus": [
+    { model: "IS", fuel: "petrol", mpg: 35 },
+    { model: "ES", fuel: "hybrid", mpg: 48 },
+    { model: "GS", fuel: "petrol", mpg: 32 },
+    { model: "LS", fuel: "petrol", mpg: 25 },
+    { model: "NX", fuel: "hybrid", mpg: 44 },
+    { model: "RX", fuel: "hybrid", mpg: 38 },
+    { model: "UX", fuel: "hybrid", mpg: 42 },
+    { model: "LC", fuel: "petrol", mpg: 22 }
+   ],
+    "F1": [
+    { model: "Mercedes W14", fuel: "racing fuel", mpg: 3 },
+    { model: "Red Bull RB19", fuel: "racing fuel", mpg: 3 },
+    { model: "Ferrari SF-23", fuel: "racing fuel", mpg: 3 },
+    { model: "McLaren MCL60", fuel: "racing fuel", mpg: 3 },
+    { model: "Alpine A523", fuel: "racing fuel", mpg: 3 },
+    { model: "Aston Martin AMR23", fuel: "racing fuel", mpg: 3 },
+    { model: "AlphaTauri AT04", fuel: "racing fuel", mpg: 3 },
+    { model: "Haas VF-23", fuel: "racing fuel", mpg: 3 }
+  ],
+   { model: "Boeing 737", fuel: "jet fuel", mpg: 0.03 },
+    { model: "Boeing 747", fuel: "jet fuel", mpg: 0.02 },
+    { model: "Boeing 777", fuel: "jet fuel", mpg: 0.02 },
+    { model: "Boeing 787", fuel: "jet fuel", mpg: 0.025 },
+    { model: "Airbus A320", fuel: "jet fuel", mpg: 0.03 },
+    { model: "Airbus A330", fuel: "jet fuel", mpg: 0.02 },
+    { model: "Airbus A350", fuel: "jet fuel", mpg: 0.025 },
+    { model: "Airbus A380", fuel: "jet fuel", mpg: 0.015 }
   ],
   "Fighter Jets": [
     { model: "F-22 Raptor", fuel: "jet fuel", mpg: 0.5 },
