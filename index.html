@@ -3,36 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <title>Pound Per Mile Calculator</title>
+  <!-- Google Font League Spartan -->
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
+  <!-- External CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Pound Per Mile Calculator</h1>
 
-  <label for="brand">Select Brand:</label><br>
-  <select id="brand">
-    <option value="">--Loading Brands--</option>
-  </select><br>
+  <div class="container">
+    <h1>Pound Per Mile Calculator</h1>
 
-  <label for="model">Select Model:</label><br>
-  <select id="model">
-    <option value="">--Select a Brand First--</option>
-  </select><br>
+    <!-- Brand Dropdown -->
+    <label for="brand">Select Brand:</label>
+    <select id="brand">
+      <option value="">--Loading Brands--</option>
+    </select>
 
-  <label for="area">Select Area:</label><br>
-  <select id="area">
-    <option value="Wales">Wales</option>
-    <option value="Scotland">Scotland</option>
-    <option value="North England">North England</option>
-    <option value="East England">East England</option>
-    <option value="South England">South England</option>
-    <option value="West England">West England</option>
-    <option value="London">London</option>
-  </select><br>
+    <!-- Model Dropdown -->
+    <label for="model">Select Model:</label>
+    <select id="model">
+      <option value="">--Select a Brand First--</option>
+    </select>
 
-  <button id="calculateBtn">Calculate £/Mile</button>
+    <!-- Area Dropdown -->
+    <label for="area">Select Area:</label>
+    <select id="area">
+      <option value="Wales">Wales</option>
+      <option value="Scotland">Scotland</option>
+      <option value="North England">North England</option>
+      <option value="East England">East England</option>
+      <option value="South England">South England</option>
+      <option value="West England">West England</option>
+      <option value="London">London</option>
+    </select>
 
-  <div id="result"></div>
+    <!-- Calculate Button -->
+    <button id="calculateBtn">Calculate £/Mile</button>
+
+    <!-- Result Display -->
+    <div id="result"></div>
+  </div>
 
   <script>
     // Prices
@@ -58,7 +68,7 @@
 
     let vehiclesData = {};
 
-    // Load JSON
+    // Load JSON file (vehicles.json)
     fetch('vehicles.json')
       .then(response => {
         if (!response.ok) throw new Error("HTTP error " + response.status);
@@ -77,6 +87,7 @@
     function populateBrands() {
       const brandSelect = document.getElementById('brand');
       brandSelect.innerHTML = '<option value="">--Select Brand--</option>';
+
       Object.keys(vehiclesData).forEach(brand => {
         const option = document.createElement('option');
         option.value = brand;
@@ -84,20 +95,16 @@
         brandSelect.appendChild(option);
       });
 
-      // Add event listener after brands loaded
       brandSelect.addEventListener('change', populateModels);
     }
 
-    // Populate Models Dropdown
+    // Populate Model Dropdown
     function populateModels() {
       const brand = document.getElementById('brand').value;
       const modelSelect = document.getElementById('model');
       modelSelect.innerHTML = '<option value="">--Select Model--</option>';
 
-      if (!brand || !vehiclesData[brand]) {
-        console.warn("No models found for brand:", brand);
-        return;
-      }
+      if (!brand || !vehiclesData[brand]) return;
 
       vehiclesData[brand].forEach(vehicle => {
         const option = document.createElement('option');
@@ -145,4 +152,5 @@
   </script>
 </body>
 </html>
+
 
