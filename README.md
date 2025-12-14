@@ -3,8 +3,7 @@
 This tool converts vehicle energy usage into a universal £/mile figure.
 
 ### How it works
-1. Enter registration
-2. Confirm vehicle details
+Confirm vehicle details
 3. Enter efficiency
 4. Weekly regional energy prices applied
 5. £ per mile calculated
