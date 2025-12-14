@@ -1,26 +1,236 @@
-<select id="brand">
-  <option value="">--Select Brand--</option>
-</select>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pound Per Mile Calculator</title>
+<style>
+/* Base body styling */
+body {
+  background-color: #303036;
+  font-family: 'League Spartan', sans-serif;
+  color: #30BCED;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
 
-<select id="model" disabled>
-  <option value="">--Select Model--</option>
-</select>
+/* Container box */
+.container {
+  background-color: #fffaff;
+  padding: 40px 30px;
+  max-width: 750px;
+  margin: 50px auto;
+  border-radius: 15px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+}
+
+/* Headings and paragraphs */
+h1 {
+  margin-bottom: 15px;
+  font-size: 2.2rem;
+}
+
+.readme {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+  color: #30BCED;
+}
+
+/* Navigation links */
+nav a {
+  text-decoration: none;
+  color: #30BCED;
+  font-weight: bold;
+  margin: 0 8px;
+}
+
+nav a:hover {
+  color: #fc5130;
+}
+
+/* Dropdowns */
+.dropdowns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.dropdowns label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.dropdowns select {
+  width: 250px;
+  padding: 12px 15px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #303036;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dropdowns select:hover {
+  border-color: #30BCED;
+  box-shadow: 0 2px 6px rgba(48, 188, 237, 0.3);
+}
+
+/* Button styling */
+button {
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background-color: #30BCED;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover:not(:disabled) {
+  background-color: #1fa4d6;
+}
+
+button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+/* Result displays */
+.result, .total-cost {
+  margin-top: 25px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fc5130;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .dropdowns select {
+    width: 90%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html">Home</a> | 
+    <a href="efficiency.html">Find Efficiency</a> | 
+    <a href="images.html">Vehicle Images</a>
+  </nav>
+
+  <h1>Pound Per Mile Calculator</h1>
+
+  <p class="readme">
+    Welcome! Select your vehicle brand and model, then choose your area. 
+    This calculator will show your estimated running cost per mile and total cost for your trip.
+  </p>
+
+  <!-- Dropdowns -->
+  <div class="dropdowns">
+    <label for="brand">Brand:</label>
+    <select id="brand">
+      <option value="">--Select Brand--</option>
+    </select>
+
+    <label for="model">Model:</label>
+    <select id="model" disabled>
+      <option value="">--Select Model--</option>
+    </select>
+
+    <label for="area">Region:</label>
+    <select id="area">
+      <option value="">--Select Region--</option>
+      <option value="Wales">Wales</option>
+      <option value="Scotland">Scotland</option>
+      <option value="North England">North England</option>
+      <option value="East England">East England</option>
+      <option value="South England">South England</option>
+      <option value="West England">West England</option>
+      <option value="London">London</option>
+    </select>
+  </div>
+
+  <button id="calculateBtn" disabled>Calculate £/mile</button>
+
+  <div class="result" id="result"></div>
+  <div class="total-cost" id="totalCost"></div>
+
+</div>
 
 <script>
-// Simple test data
+// Minimal, valid vehiclesData for the first 10 companies with sample models
 const vehiclesData = {
   "Ford": [
     { model: "Fiesta" },
-    { model: "Focus" }
+    { model: "Focus" },
+    { model: "Mustang" }
   ],
   "Toyota": [
     { model: "Prius" },
-    { model: "Corolla" }
+    { model: "Corolla" },
+    { model: "Yaris" }
+  ],
+  "Volkswagen": [
+    { model: "Golf" },
+    { model: "Passat" },
+    { model: "Polo" }
+  ],
+  "Honda": [
+    { model: "Civic" },
+    { model: "Accord" },
+    { model: "Jazz" }
+  ],
+  "BMW": [
+    { model: "3 Series" },
+    { model: "5 Series" },
+    { model: "X5" }
+  ],
+  "Mercedes": [
+    { model: "C-Class" },
+    { model: "E-Class" },
+    { model: "S-Class" }
+  ],
+  "Nissan": [
+    { model: "Leaf" },
+    { model: "Qashqai" },
+    { model: "Juke" }
+  ],
+  "Hyundai": [
+    { model: "i10" },
+    { model: "i20" },
+    { model: "Kona" }
+  ],
+  "Kia": [
+    { model: "Picanto" },
+    { model: "Ceed" },
+    { model: "Sportage" }
+  ],
+  "Audi": [
+    { model: "A3" },
+    { model: "A4" },
+    { model: "Q5" }
   ]
 };
 
+// DOM elements
 const brandSelect = document.getElementById('brand');
 const modelSelect = document.getElementById('model');
+const areaSelect = document.getElementById('area');
+const calculateBtn = document.getElementById('calculateBtn');
+const resultDiv = document.getElementById('result');
+const totalDiv = document.getElementById('totalCost');
 
 // Populate brands
 Object.keys(vehiclesData).forEach(brand => {
@@ -30,13 +240,13 @@ Object.keys(vehiclesData).forEach(brand => {
   brandSelect.appendChild(option);
 });
 
-// Update models when brand changes
+// Update models dropdown
 brandSelect.addEventListener('change', () => {
   const brand = brandSelect.value;
   modelSelect.innerHTML = '<option value="">--Select Model--</option>';
   modelSelect.disabled = !brand;
 
-  if (brand) {
+  if (brand && vehiclesData[brand]) {
     vehiclesData[brand].forEach(vehicle => {
       const option = document.createElement('option');
       option.value = vehicle.model;
@@ -44,5 +254,27 @@ brandSelect.addEventListener('change', () => {
       modelSelect.appendChild(option);
     });
   }
+  checkButtonState();
+});
+
+// Enable/disable calculate button
+modelSelect.addEventListener('change', checkButtonState);
+areaSelect.addEventListener('change', checkButtonState);
+
+function checkButtonState() {
+  calculateBtn.disabled = !(brandSelect.value && modelSelect.value && areaSelect.value);
+}
+
+// Placeholder calculate logic
+calculateBtn.addEventListener('click', () => {
+  const brand = brandSelect.value;
+  const model = modelSelect.value;
+  const area = areaSelect.value;
+
+  resultDiv.innerText = `You selected: ${brand} ${model} in ${area}.`;
+  totalDiv.innerText = '';
 });
 </script>
+
+</body>
+</html>
