@@ -91,3 +91,20 @@ calculateBtn.addEventListener('click', () => {
 
   resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile.`;
 });
+
+// After calculating costPerMile:
+const costPerMile = /* your calculated value here */;
+
+// Display the cost per mile first
+resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile.`;
+
+// Ask user for miles traveled
+const milesInput = prompt("How many miles will you be traveling?");
+if (milesInput && !isNaN(milesInput)) {
+  const totalMiles = parseFloat(milesInput);
+  const totalCost = costPerMile * totalMiles;
+  totalDiv.innerText = `Total estimated cost for ${totalMiles} miles: £${totalCost.toFixed(2)}`;
+} else {
+  totalDiv.innerText = ''; // Clear if invalid input
+}
+
