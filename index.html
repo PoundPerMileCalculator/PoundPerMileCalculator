@@ -135,7 +135,7 @@ button:disabled {
   <!-- Instructions -->
   <p class="readme">
     Welcome! Select your vehicle brand and model, then choose your area. 
-    This calculator will show your estimated running cost per mile and total cost for your trip.
+    This calculator will show your estimated running cost per mile and optionally the total cost for your trip.
   </p>
 
   <!-- Dropdowns -->
@@ -263,14 +263,14 @@ calculateBtn.addEventListener('click', () => {
   else costPerMile = 10;
 
   resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile.`;
+  totalDiv.innerText = '';
 
-  const milesInput = prompt("How many miles will you be traveling?");
+  // Ask optionally for miles AFTER showing ppm
+  const milesInput = prompt("Optional: How many miles will you be traveling?");
   if (milesInput && !isNaN(milesInput)) {
     const totalMiles = parseFloat(milesInput);
     const totalCost = costPerMile * totalMiles;
     totalDiv.innerText = `Total estimated cost for ${totalMiles} miles: £${totalCost.toFixed(2)}`;
-  } else {
-    totalDiv.innerText = '';
   }
 });
 </script>
