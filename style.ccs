@@ -99,5 +99,9 @@ select {
   max-height: 200px;   /* added */
   overflow-y: auto;    /* added */
 }
+select {
+  max-height: 200px;
+  overflow-y: auto;
+}
 
 
