@@ -1,3 +1,9 @@
+console.log('Fetching vehicles.json...');
+fetch('vehicles.json')
+  .then(res => res.json())
+  .then(data => console.log('Loaded vehicles:', data))
+  .catch(err => console.error(err));
+
 // DOM Elements
 const brandSelect = document.getElementById('brand');
 const modelSelect = document.getElementById('model');
