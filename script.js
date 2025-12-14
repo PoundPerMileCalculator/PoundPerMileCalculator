@@ -1,9 +1,3 @@
-console.log('Fetching vehicles.json...');
-fetch('vehicles.json')
-  .then(res => res.json())
-  .then(data => console.log('Loaded vehicles:', data))
-  .catch(err => console.error(err));
-
 // DOM Elements
 const brandSelect = document.getElementById('brand');
 const modelSelect = document.getElementById('model');
@@ -47,7 +41,7 @@ fetch('vehicles.json')
   })
   .catch(err => {
     console.error('Error loading vehicles.json:', err);
-    resultDiv.innerText = 'Error loading vehicle data. Please check the console.';
+    resultDiv.innerText = 'Error loading vehicle data. Check console.';
   });
 
 // --- Populate Brand Dropdown ---
@@ -105,21 +99,22 @@ calculateBtn.addEventListener('click', () => {
 
   let costPerMile = 0;
 
-  // Petrol
-  if (vehicle.fuel === 'petrol') {
-    costPerMile = (fuelPrices[area].petrol / 100) / vehicle.mpg;
-  }
-  // Diesel
-  else if (vehicle.fuel === 'diesel') {
-    costPerMile = (fuelPrices[area].diesel / 100) / vehicle.mpg;
-  }
-  // Electric
-  else if (vehicle.fuel === 'electric') {
-    costPerMile = (energyPrices[area] / 100) * vehicle.kwh_per_mile;
-  }
-  // Fun vehicles or missing fuel type
-  else {
-    costPerMile = 10; // fallback arbitrary
+  switch(vehicle.fuel) {
+    case 'petrol':
+      costPerMile = (fuelPrices[area].petrol / 100) / vehicle.mpg;
+      break;
+    case 'diesel':
+      costPerMile = (fuelPrices[area].diesel / 100) / vehicle.mpg;
+      break;
+    case 'electric':
+      if (!vehicle.kwh_per_mile) {
+        resultDiv.innerText = 'Electric vehicle missing kWh per mile data.';
+        return;
+      }
+      costPerMile = (energyPrices[area] / 100) * vehicle.kwh_per_mile;
+      break;
+    default:
+      costPerMile = 10; // fallback for fun vehicles or missing fuel type
   }
 
   resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile.`;
