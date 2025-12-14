@@ -1,56 +1,14 @@
-let vehiclesData = {}; // Will hold the JSON data
-
-// DOM elements
+// DOM Elements
 const brandSelect = document.getElementById('brand');
 const modelSelect = document.getElementById('model');
 const areaSelect = document.getElementById('area');
 const calculateBtn = document.getElementById('calculateBtn');
 const resultDiv = document.getElementById('result');
+const totalDiv = document.getElementById('totalCost');
 
-// Fetch vehicle data
-fetch('vehicles.json')
-  .then(response => response.json())
-  .then(data => {
-    vehiclesData = data;
-    populateBrands();
-  })
-  .catch(err => console.error("Failed to load vehicles.json:", err));
+let vehiclesData = {};
 
-// Populate brand dropdown
-function populateBrands() {
-  brandSelect.innerHTML = '<option value="">--Select Brand--</option>';
-  Object.keys(vehiclesData).forEach(brand => {
-    const option = document.createElement('option');
-    option.value = brand;
-    option.textContent = brand;
-    brandSelect.appendChild(option);
-  });
-}
-
-// Enable/disable calculate button
-function checkButtonState() {
-  calculateBtn.disabled = !(brandSelect.value && modelSelect.value && areaSelect.value);
-}
-
-// Populate model dropdown when brand changes
-brandSelect.addEventListener('change', () => {
-  modelSelect.disabled = !brandSelect.value;
-  modelSelect.innerHTML = '<option value="">--Select Model--</option>';
-  if (brandSelect.value && vehiclesData[brandSelect.value]) {
-    vehiclesData[brandSelect.value].forEach(vehicle => {
-      const option = document.createElement('option');
-      option.value = vehicle.model;
-      option.textContent = vehicle.model;
-      modelSelect.appendChild(option);
-    });
-  }
-  checkButtonState();
-});
-
-modelSelect.addEventListener('change', checkButtonState);
-areaSelect.addEventListener('change', checkButtonState);
-
-// Example fuel/energy prices
+// --- Fuel & Energy Prices per area ---
 const fuelPrices = {
   "Wales": { petrol: 135, diesel: 143 },
   "Scotland": { petrol: 135, diesel: 144 },
@@ -71,40 +29,84 @@ const energyPrices = {
   "London": 26.05
 };
 
-// Calculate £/mile
+// --- Load vehicles.json ---
+fetch('vehicles.json')
+  .then(res => res.json())
+  .then(data => {
+    vehiclesData = data;
+    populateBrands();
+  })
+  .catch(err => console.error('Error loading vehicles:', err));
+
+// --- Populate Brand Dropdown ---
+function populateBrands() {
+  Object.keys(vehiclesData).forEach(brand => {
+    const option = document.createElement('option');
+    option.value = brand;
+    option.textContent = brand;
+    brandSelect.appendChild(option);
+  });
+}
+
+// --- Update Model Dropdown on Brand Change ---
+brandSelect.addEventListener('change', () => {
+  modelSelect.disabled = !brandSelect.value;
+  modelSelect.innerHTML = '<option value="">--Select Model--</option>';
+  
+  if (brandSelect.value) {
+    vehiclesData[brandSelect.value].forEach(vehicle => {
+      const option = document.createElement('option');
+      option.value = vehicle.model;
+      option.textContent = vehicle.model;
+      modelSelect.appendChild(option);
+    });
+  }
+  checkButtonState();
+});
+
+// --- Enable/Disable Calculate Button ---
+modelSelect.addEventListener('change', checkButtonState);
+areaSelect.addEventListener('change', checkButtonState);
+
+function checkButtonState() {
+  calculateBtn.disabled = !(brandSelect.value && modelSelect.value && areaSelect.value);
+}
+
+// --- Calculate £/mile and Total Cost ---
 calculateBtn.addEventListener('click', () => {
   const brand = brandSelect.value;
   const model = modelSelect.value;
   const area = areaSelect.value;
+
   const vehicle = vehiclesData[brand].find(v => v.model === model);
-
   let costPerMile = 0;
-  const fuelType = vehicle.fuel;
 
-  if (fuelType === "petrol") {
+  if (!vehicle) {
+    resultDiv.innerText = 'Vehicle data not found.';
+    return;
+  }
+
+  // --- Calculate cost per mile ---
+  if (vehicle.fuel === 'petrol') {
     costPerMile = (fuelPrices[area].petrol / 100) / vehicle.mpg;
-  } else if (fuelType === "diesel") {
+  } else if (vehicle.fuel === 'diesel') {
     costPerMile = (fuelPrices[area].diesel / 100) / vehicle.mpg;
-  } else if (fuelType === "electric") {
+  } else if (vehicle.fuel === 'electric') {
     costPerMile = (energyPrices[area] / 100) * vehicle.kwh_per_mile;
+  } else {
+    // Fun cars, jets, etc.
+    costPerMile = 10; // fallback arbitrary value
   }
 
   resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile.`;
+
+  // --- Ask user for miles to calculate total ---
+  const milesInput = prompt("How many miles will you be traveling?");
+  if (milesInput && !isNaN(milesInput)) {
+    const totalMiles = parseFloat(milesInput);
+    const totalCost = costPerMile * totalMiles;
+    totalDiv.innerText = `Total estimated cost for ${totalMiles} miles: £${totalCost.toFixed(2)}`;
+  } else {
+    totalDiv.innerText = '';
+  }
 });
-
-// After calculating costPerMile:
-const costPerMile = /* your calculated value here */;
-
-// Display the cost per mile first
-resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile.`;
-
-// Ask user for miles traveled
-const milesInput = prompt("How many miles will you be traveling?");
-if (milesInput && !isNaN(milesInput)) {
-  const totalMiles = parseFloat(milesInput);
-  const totalCost = costPerMile * totalMiles;
-  totalDiv.innerText = `Total estimated cost for ${totalMiles} miles: £${totalCost.toFixed(2)}`;
-} else {
-  totalDiv.innerText = ''; // Clear if invalid input
-}
-
