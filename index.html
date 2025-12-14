@@ -3,35 +3,134 @@
 <head>
   <meta charset="UTF-8">
   <title>Pound Per Mile Calculator</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    select, button { margin: 10px 0; padding: 5px; }
+    #result { margin-top: 20px; font-weight: bold; }
+  </style>
 </head>
 <body>
+  <h1>Pound Per Mile Calculator</h1>
 
-<h1>Pound Per Mile Calculator</h1>
+  <label for="brand">Select Brand:</label>
+  <select id="brand"></select>
 
-<section>
-  <h2>Enter Vehicle Registration</h2>
-  <input type="text" id="regInput" placeholder="e.g. AB12CDE">
-  <button onclick="lookupVehicle()">Check Vehicle</button>
-</section>
+  <br>
 
-<section id="vehicleConfirm" style="display:none;">
-  <h2>Is this your vehicle?</h2>
-  <p id="vehicleDetails"></p>
-  <button onclick="confirmVehicle(true)">Yes</button>
-  <button onclick="confirmVehicle(false)">No</button>
-</section>
+  <label for="model">Select Model:</label>
+  <select id="model"></select>
 
-<section id="calculator" style="display:none;">
-  <h2>Efficiency</h2>
+  <br>
 
-  <label id="efficiencyLabel"></label>
-  <input type="number" id="efficiencyInput" step="0.01">
+  <label for="area">Select Area:</label>
+  <select id="area">
+    <option value="Wales">Wales</option>
+    <option value="Scotland">Scotland</option>
+    <option value="North England">North England</option>
+    <option value="East England">East England</option>
+    <option value="South England">South England</option>
+    <option value="West England">West England</option>
+    <option value="London">London</option>
+  </select>
 
-  <button onclick="calculate()">Calculate £/mile</button>
-  <h3 id="result"></h3>
-</section>
+  <br>
 
-<script src="script.js"></script>
+  <button id="calculateBtn">Calculate £/Mile</button>
+
+  <div id="result"></div>
+
+  <script>
+    // UK Fuel Prices (pence per litre)
+    const fuelPrices = {
+      "Wales": { petrol: 135, diesel: 143 },
+      "Scotland": { petrol: 135, diesel: 144 },
+      "North England": { petrol: 136, diesel: 145 },
+      "East England": { petrol: 137, diesel: 145 },
+      "South England": { petrol: 138, diesel: 146 },
+      "West England": { petrol: 136, diesel: 144 },
+      "London": { petrol: 138, diesel: 146 }
+    };
+
+    // UK Energy Prices (pence per kWh)
+    const energyPrices = {
+      "Wales": 25.8,
+      "Scotland": 26.0,
+      "North England": 25.0,
+      "East England": 26.0,
+      "South England": 26.9,
+      "West England": 26.0,
+      "London": 26.05
+    };
+
+    let vehiclesData = {}; // This will be loaded from JSON
+
+    // Load the JSON data
+    fetch('vehicles.json')
+      .then(response => response.json())
+      .then(data => {
+        vehiclesData = data;
+        populateBrands();
+      });
+
+    // Populate brand dropdown
+    function populateBrands() {
+      const brandSelect = document.getElementById('brand');
+      brandSelect.innerHTML = '<option value="">--Select Brand--</option>';
+      Object.keys(vehiclesData).forEach(brand => {
+        const option = document.createElement('option');
+        option.value = brand;
+        option.textContent = brand;
+        brandSelect.appendChild(option);
+      });
+      brandSelect.addEventListener('change', populateModels);
+    }
+
+    // Populate model dropdown based on brand
+    function populateModels() {
+      const brand = document.getElementById('brand').value;
+      const modelSelect = document.getElementById('model');
+      modelSelect.innerHTML = '<option value="">--Select Model--</option>';
+      if (!brand) return;
+      vehiclesData[brand].forEach(vehicle => {
+        const option = document.createElement('option');
+        option.value = vehicle.model;
+        option.textContent = vehicle.model;
+        modelSelect.appendChild(option);
+      });
+    }
+
+    // Calculate £/mile
+    document.getElementById('calculateBtn').addEventListener('click', () => {
+      const brand = document.getElementById('brand').value;
+      const model = document.getElementById('model').value;
+      const area = document.getElementById('area').value;
+
+      if (!brand || !model || !area) {
+        alert('Please select brand, model, and area.');
+        return;
+      }
+
+      const vehicle = vehiclesData[brand].find(v => v.model === model);
+      let costPerMile = 0;
+      let fuelType = vehicle.fuel;
+
+      if (fuelType === 'petrol') {
+        costPerMile = (fuelPrices[area].petrol / 100) / (vehicle.mpg || 1);
+      } else if (fuelType === 'diesel') {
+        costPerMile = (fuelPrices[area].diesel / 100) / (vehicle.mpg || 1);
+      } else if (fuelType === 'hybrid') {
+        // Hybrid simple average (50% fuel, 50% electric)
+        const petrolCost = (fuelPrices[area].petrol / 100) / (vehicle.mpg || 1);
+        const electricCost = (energyPrices[area] / 100) * (vehicle.kwh_per_mile || 0.3);
+        costPerMile = (petrolCost + electricCost) / 2;
+      } else if (fuelType === 'electric') {
+        costPerMile = (energyPrices[area] / 100) * (vehicle.kwh_per_mile || 0.3);
+      }
+
+      document.getElementById('result').innerText =
+        `The estimated cost to run ${brand} ${model} in ${area} is £${costPerMile.toFixed(2)} per mile.`;
+    });
+  </script>
 </body>
 </html>
+
