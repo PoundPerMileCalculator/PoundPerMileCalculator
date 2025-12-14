@@ -3,26 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <title>Pound Per Mile Calculator</title>
+  
+  <!-- Google Font similar to League Spartan -->
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; }
-    select, button { margin: 10px 0; padding: 5px; }
-    #result { margin-top: 20px; font-weight: bold; }
+    body {
+      font-family: 'League Spartan', sans-serif;
+      background-color: #fffaff;
+      color: #30BCED;
+      text-align: center;
+      margin: 0;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 30px;
+    }
+
+    select, button {
+      margin: 10px 0;
+      padding: 10px 15px;
+      font-size: 1.1em;
+      border-radius: 12px;  /* beveled edges */
+      border: 2px solid #30BCED;
+      outline: none;
+      cursor: pointer;
+      background-color: #fff;
+      color: #30BCED;
+      transition: all 0.3s ease;
+    }
+
+    select:hover, button:hover {
+      background-color: #30BCED;
+      color: #fff;
+    }
+
+    button {
+      font-weight: bold;
+    }
+
+    #result {
+      margin-top: 30px;
+      font-size: 1.8em;
+      color: #fc5130;
+    }
   </style>
 </head>
 <body>
   <h1>Pound Per Mile Calculator</h1>
 
-  <label for="brand">Select Brand:</label>
-  <select id="brand"></select>
+  <label for="brand">Select Brand:</label><br>
+  <select id="brand"></select><br>
 
-  <br>
+  <label for="model">Select Model:</label><br>
+  <select id="model"></select><br>
 
-  <label for="model">Select Model:</label>
-  <select id="model"></select>
-
-  <br>
-
-  <label for="area">Select Area:</label>
+  <label for="area">Select Area:</label><br>
   <select id="area">
     <option value="Wales">Wales</option>
     <option value="Scotland">Scotland</option>
@@ -31,16 +69,13 @@
     <option value="South England">South England</option>
     <option value="West England">West England</option>
     <option value="London">London</option>
-  </select>
-
-  <br>
+  </select><br>
 
   <button id="calculateBtn">Calculate £/Mile</button>
 
   <div id="result"></div>
 
   <script>
-    // UK Fuel Prices (pence per litre)
     const fuelPrices = {
       "Wales": { petrol: 135, diesel: 143 },
       "Scotland": { petrol: 135, diesel: 144 },
@@ -51,7 +86,6 @@
       "London": { petrol: 138, diesel: 146 }
     };
 
-    // UK Energy Prices (pence per kWh)
     const energyPrices = {
       "Wales": 25.8,
       "Scotland": 26.0,
@@ -62,9 +96,8 @@
       "London": 26.05
     };
 
-    let vehiclesData = {}; // This will be loaded from JSON
+    let vehiclesData = {};
 
-    // Load the JSON data
     fetch('vehicles.json')
       .then(response => response.json())
       .then(data => {
@@ -72,7 +105,6 @@
         populateBrands();
       });
 
-    // Populate brand dropdown
     function populateBrands() {
       const brandSelect = document.getElementById('brand');
       brandSelect.innerHTML = '<option value="">--Select Brand--</option>';
@@ -85,7 +117,6 @@
       brandSelect.addEventListener('change', populateModels);
     }
 
-    // Populate model dropdown based on brand
     function populateModels() {
       const brand = document.getElementById('brand').value;
       const modelSelect = document.getElementById('model');
@@ -99,7 +130,6 @@
       });
     }
 
-    // Calculate £/mile
     document.getElementById('calculateBtn').addEventListener('click', () => {
       const brand = document.getElementById('brand').value;
       const model = document.getElementById('model').value;
@@ -119,7 +149,6 @@
       } else if (fuelType === 'diesel') {
         costPerMile = (fuelPrices[area].diesel / 100) / (vehicle.mpg || 1);
       } else if (fuelType === 'hybrid') {
-        // Hybrid simple average (50% fuel, 50% electric)
         const petrolCost = (fuelPrices[area].petrol / 100) / (vehicle.mpg || 1);
         const electricCost = (energyPrices[area] / 100) * (vehicle.kwh_per_mile || 0.3);
         costPerMile = (petrolCost + electricCost) / 2;
@@ -133,4 +162,3 @@
   </script>
 </body>
 </html>
-
