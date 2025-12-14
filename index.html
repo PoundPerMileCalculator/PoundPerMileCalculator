@@ -1,55 +1,50 @@
-<link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Pound Per Mile Calculator</title>
-  
-  <!-- League Spartan font -->
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
-  
-  <!-- Link external CSS -->
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pound Per Mile Calculator</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <div class="container">
-    <div class="readme">
-      <h2>Welcome to the Pound Per Mile Calculator</h2>
-      <p>Select your vehicle brand and model, then choose your area. We'll calculate the approximate cost per mile using current UK fuel and energy prices.</p>
+    <h1>Pound Per Mile Calculator</h1>
+    
+    <p class="readme">
+      Welcome! Select your vehicle brand and model, then choose your area. 
+      This calculator will show your estimated running cost per mile and total cost for your trip.
+    </p>
+
+    <div class="dropdowns">
+      <label for="brand">Brand:</label>
+      <select id="brand">
+        <option value="">--Select Brand--</option>
+      </select>
+
+      <label for="model">Model:</label>
+      <select id="model" disabled>
+        <option value="">--Select Model--</option>
+      </select>
+
+      <label for="area">Area:</label>
+      <select id="area">
+        <option value="">--Select Area--</option>
+        <option value="Wales">Wales</option>
+        <option value="Scotland">Scotland</option>
+        <option value="North England">North England</option>
+        <option value="East England">East England</option>
+        <option value="South England">South England</option>
+        <option value="West England">West England</option>
+        <option value="London">London</option>
+      </select>
     </div>
 
-    <h1>Pound Per Mile Calculator</h1>
+    <button id="calculateBtn" disabled>Calculate £/mile</button>
 
-    <label for="brand">Select Brand:</label>
-    <select id="brand">
-      <option value="">--Select Brand--</option>
-    </select>
-
-    <label for="model">Select Model:</label>
-    <select id="model" disabled>
-      <option value="">--Select a Brand First--</option>
-    </select>
-
-    <label for="area">Select Area:</label>
-    <select id="area">
-      <option value="">--Select Area--</option>
-      <option value="Wales">Wales</option>
-      <option value="Scotland">Scotland</option>
-      <option value="North England">North England</option>
-      <option value="East England">East England</option>
-      <option value="South England">South England</option>
-      <option value="West England">West England</option>
-      <option value="London">London</option>
-    </select>
-
-    <button id="calculateBtn" disabled>Calculate £/Mile</button>
-
-    <div id="result"></div>
+    <div class="result" id="result"></div>
+    <div class="total-cost" id="totalCost"></div>
   </div>
 
-  <!-- Link external JS -->
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
