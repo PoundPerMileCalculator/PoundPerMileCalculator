@@ -1,3 +1,51 @@
+const vehiclesData = {
+  
+  // Add all your other brands & models here
+};
+
+// Populate Brand Dropdown
+const brandSelect = document.getElementById('brand');
+const modelSelect = document.getElementById('model');
+const areaSelect = document.getElementById('area');
+const calculateBtn = document.getElementById('calculateBtn');
+const resultDiv = document.getElementById('result');
+const totalDiv = document.getElementById('totalCost');
+
+function populateBrands() {
+  Object.keys(vehiclesData).forEach(brand => {
+    const option = document.createElement('option');
+    option.value = brand;
+    option.textContent = brand;
+    brandSelect.appendChild(option);
+  });
+}
+populateBrands();
+
+// Update models when brand changes
+brandSelect.addEventListener('change', () => {
+  const brand = brandSelect.value;
+  modelSelect.innerHTML = '<option value="">--Select Model--</option>';
+  modelSelect.disabled = !brand;
+
+  if (brand && vehiclesData[brand]) {
+    vehiclesData[brand].forEach(vehicle => {
+      const option = document.createElement('option');
+      option.value = vehicle.model;
+      option.textContent = vehicle.model;
+      modelSelect.appendChild(option);
+    });
+  }
+  checkButtonState();
+});
+
+function checkButtonState() {
+  calculateBtn.disabled = !(brandSelect.value && modelSelect.value && areaSelect.value);
+}
+
+modelSelect.addEventListener('change', checkButtonState);
+areaSelect.addEventListener('change', checkButtonState);
+
+// You can keep your calculate button logic as before
 // DOM Elements
 const brandSelect = document.getElementById('brand');
 const modelSelect = document.getElementById('model');
