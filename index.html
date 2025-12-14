@@ -479,89 +479,59 @@ const vehiclesData = {
 
 };
 
-// Fuel & energy prices
+// --- Prices ---
 const fuelPrices = {
-  "Wales": { petrol: 135, diesel: 143 },
-  "Scotland": { petrol: 135, diesel: 144 },
-  "North England": { petrol: 136, diesel: 145 },
-  "East England": { petrol: 137, diesel: 145 },
-  "South England": { petrol: 138, diesel: 146 },
-  "West England": { petrol: 136, diesel: 144 },
-  "London": { petrol: 138, diesel: 146 }
+  "Wales": { petrol: 135 },
+  "London": { petrol: 138 }
 };
 
-const energyPrices = {
-  "Wales": 25.8,
-  "Scotland": 26.0,
-  "North England": 25.0,
-  "East England": 26.0,
-  "South England": 26.9,
-  "West England": 26.0,
-  "London": 26.05
-};
+// --- DOM ---
+const resultDiv = document.getElementById("result");
+const totalDiv = document.getElementById("totalCost");
 
-// DOM elements
-const brandSelect = document.getElementById('brand');
-const modelSelect = document.getElementById('model');
-const areaSelect = document.getElementById('area');
-const calculateBtn = document.getElementById('calculateBtn');
-const resultDiv = document.getElementById('result');
-const totalDiv = document.getElementById('totalCost');
+document.getElementById("calculateBtn").addEventListener("click", () => {
+  const brand = document.getElementById("brand").value;
+  const model = document.getElementById("model").value;
+  const area = document.getElementById("area").value;
 
-// Populate brands
-Object.keys(vehiclesData).forEach(brand => {
-  const opt = document.createElement('option');
-  opt.value = brand;
-  opt.textContent = brand;
-  brandSelect.appendChild(opt);
-});
-
-// Update models
-brandSelect.addEventListener('change', () => {
-  const b = brandSelect.value;
-  modelSelect.innerHTML = '<option value="">--Select Model--</option>';
-  modelSelect.disabled = !b;
-  if (b && vehiclesData[b]) {
-    vehiclesData[b].forEach(v => {
-      const o = document.createElement('option');
-      o.value = v.model;
-      o.textContent = v.model;
-      modelSelect.appendChild(o);
-    });
+  if (!brand || !model || !area) {
+    resultDiv.innerText = "Please select all options.";
+    return;
   }
-  checkButtonState();
-});
 
-modelSelect.addEventListener('change', checkButtonState);
-areaSelect.addEventListener('change', checkButtonState);
+  const vehicle = vehicles[brand][model];
+  const mpg = Number(vehicle.mpg);
 
-function checkButtonState() {
-  calculateBtn.disabled = !(brandSelect.value && modelSelect.value && areaSelect.value);
-}
+  // ✅ SAFETY CHECK
+  if (!mpg || mpg <= 0) {
+    resultDiv.innerText = "Invalid efficiency data.";
+    return;
+  }
 
-// Calculate
-calculateBtn.addEventListener('click', ()=> {
-  const b = brandSelect.value, m = modelSelect.value, a = areaSelect.value;
-  const v = vehiclesData[b].find(x => x.model === m);
-  if (!v) return;
+  let costPerMile = 0;
 
-  let costPM = 0;
-  if (v.fuel === 'petrol') costPM = (fuelPrices[a].petrol/100)/v.mpg;
-  else if (v.fuel === 'diesel') costPM = (fuelPrices[a].diesel/100)/v.mpg;
-  else if (v.fuel === 'hybrid') costPM = (fuelPrices[a].petrol/100)/v.mpg;  
-  else if (v.fuel === 'electric') costPM = (energyPrices[a]/100)*v.kwh_per_mile;
+  if (vehicle.fuel === "petrol") {
+    costPerMile = (fuelPrices[area].petrol / 100) / mpg;
+  } else {
+    // Fun / aircraft fallback
+    costPerMile = (fuelPrices[area].petrol / 100) / mpg;
+  }
 
-  resultDiv.innerText = `Running cost: £${costPM.toFixed(2)} per mile.`;
-  totalDiv.innerText = '';
+  resultDiv.innerText = `Estimated cost: £${costPerMile.toFixed(2)} per mile`;
 
-  const miles = prompt("Optional: enter miles to calculate total cost:");
+  // Optional miles input
+  const miles = prompt("How many miles will you be travelling? (optional)");
   if (miles && !isNaN(miles)) {
-    const total = costPM * parseFloat(miles);
-    totalDiv.innerText = `Total cost for ${miles} miles: £${total.toFixed(2)}`;
+    const totalCost = costPerMile * Number(miles);
+    totalDiv.innerText = `Total estimated cost: £${totalCost.toFixed(2)}`;
+  } else {
+    totalDiv.innerText = "";
   }
 });
 </script>
-<style>
+
+</body>
+</html>
 /* ================= FOOTER ================= */
 
 .site-footer {
