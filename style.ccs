@@ -1,7 +1,7 @@
 /* Base body styling */
 body {
   background-color: #303036;       /* Dark outer background */
-  font-family: 'League Spartan', sans-serif;
+  font-family: 'League Spartan', 'Arial', sans-serif;
   color: #30BCED;                  /* Main text color */
   text-align: center;
   margin: 0;
@@ -31,6 +31,19 @@ h1 {
   color: #30BCED;
 }
 
+/* Navigation */
+nav a {
+  color: #30BCED;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #fc5130;
+}
+
 /* Dropdowns */
 .dropdowns {
   display: flex;
@@ -47,17 +60,19 @@ h1 {
 
 .dropdowns select {
   width: 250px;
+  max-height: 200px;             /* Scrollable if many options */
   padding: 12px 15px;
   border-radius: 12px;
   border: 1px solid #ccc;
   background-color: #fff;
   color: #303036;
   font-size: 1rem;
-  appearance: none;       /* Remove default arrow for custom look */
+  appearance: none;               /* Remove default arrow */
   -webkit-appearance: none;
   -moz-appearance: none;
   cursor: pointer;
   transition: all 0.2s ease;
+  overflow-y: auto;
 }
 
 .dropdowns select:hover {
@@ -75,11 +90,12 @@ button {
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 button:hover:not(:disabled) {
   background-color: #1fa4d6;
+  transform: translateY(-2px);
 }
 
 button:disabled {
@@ -101,4 +117,3 @@ button:disabled {
     width: 90%;
   }
 }
-
