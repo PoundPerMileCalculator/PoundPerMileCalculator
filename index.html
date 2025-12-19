@@ -568,7 +568,7 @@ calculateBtn.addEventListener('click', () => {
   else if (vehicle.fuel === 'jet fuel') costPerMile = (1.50 / vehicle.mpg); // £1.50 per gallon example
   else costPerMile = 0;
 
-  resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile.`;
+  resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile when driven at maximum efficiency.`;
 
   const milesInput = prompt("How many miles will you be traveling? (Optional)");
   if (milesInput && !isNaN(milesInput)) {
