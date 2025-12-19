@@ -1353,7 +1353,6 @@ areaSelect.addEventListener('change', checkButtonState);
 function checkButtonState() {
   calculateBtn.disabled = !(brandSelect.value && modelSelect.value && areaSelect.value);
 }
-
 calculateBtn.addEventListener('click', () => {
   const brand = brandSelect.value;
   const model = modelSelect.value;
@@ -1363,33 +1362,39 @@ calculateBtn.addEventListener('click', () => {
 
   let costPerMile = 0;
 
-  if (vehicle.fuel === 'petrol' || vehicle.fuel === 'hybrid') {
-    // Convert pence/litre to £/litre, then multiply by litres per mile
-    const pricePerLitre = fuelPrices[area].petrol / 100; // £ per litre
-    const litresPerMile = 4.54609 / vehicle.mpg; // litres per mile
-    costPerMile = pricePerLitre * litresPerMile;
-  } 
-  else if (vehicle.fuel === 'diesel') {
-    const pricePerLitre = fuelPrices[area].diesel / 100; // £ per litre
-    const litresPerMile = 4.54609 / vehicle.mpg;
-    costPerMile = pricePerLitre * litresPerMile;
-  } 
-  else if (vehicle.fuel === 'electric') {
-    // energyPrices[area] assumed £ per kWh
-    costPerMile = vehicle.kwh_per_mile * energyPrices[area];
-  } 
-  else if (vehicle.fuel === 'racing fuel') {
-    costPerMile = (3.00 / vehicle.mpg) * 4.54609; // convert gallons to litres for consistency
-  } 
-  else if (vehicle.fuel === 'jet fuel') {
-    costPerMile = (1.50 / vehicle.mpg) * 4.54609;
-  } 
-  else {
-    costPerMile = 0;
+  switch(vehicle.fuel) {
+    case 'petrol':
+    case 'hybrid': {
+      // petrol price in £/litre
+      const pricePerLitre = fuelPrices[area].petrol / 100;
+      const litresPerMile = 4.54609 / vehicle.mpg;
+      costPerMile = pricePerLitre * litresPerMile;
+      break;
+    }
+    case 'diesel': {
+      const pricePerLitre = fuelPrices[area].diesel / 100;
+      const litresPerMile = 4.54609 / vehicle.mpg;
+      costPerMile = pricePerLitre * litresPerMile;
+      break;
+    }
+    case 'electric': {
+      const pricePerKWh = energyPrices[area] / 100; // p/kWh → £/kWh
+      costPerMile = vehicle.kwh_per_mile * pricePerKWh;
+      break;
+    }
+    case 'racing fuel': {
+      costPerMile = 3.00 * (4.54609 / vehicle.mpg); // £3 per gallon
+      break;
+    }
+    case 'jet fuel': {
+      costPerMile = 1.50 * (4.54609 / vehicle.mpg); // £1.50 per gallon
+      break;
+    }
+    default:
+      costPerMile = 0;
   }
 
   resultDiv.innerText = `Estimated cost to run ${brand} ${model} in ${area}: £${costPerMile.toFixed(2)} per mile when driven at maximum efficiency.`;
-});
 
   const milesInput = prompt("How many miles will you be traveling? (Optional)");
   if (milesInput && !isNaN(milesInput)) {
@@ -1400,6 +1405,8 @@ calculateBtn.addEventListener('click', () => {
     totalDiv.innerText = '';
   }
 });
+
+
 </script>
 </body>
 </html>
