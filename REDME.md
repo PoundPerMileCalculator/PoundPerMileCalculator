@@ -1,6 +1,8 @@
 ## Pound Per Mile Calculator
 
-This tool converts vehicle energy usage into a universal £/mile figure.
+Discover the true cost of driving in the UK with our free Pound Per Mile Calculator! Instantly calculate fuel or electricity cost per mile (and total trip costs) for hundreds of popular vehicles — including petrol, diesel, hybrid, and electric models from brands like Ford, Toyota, Tesla, BMW, Mazda, and more.
+Select your car brand, model, and UK region (with regional fuel prices updated for December 2025) to get accurate estimates based on real-world efficiency data. Compare running costs across vehicles, plan journeys, or see how much you could save switching to electric.
+Fast, easy, and up-to-date — perfect for motorists, fleet managers, or anyone budgeting fuel expenses in 2025!
 
 ### How it works
 1. Enter registration
